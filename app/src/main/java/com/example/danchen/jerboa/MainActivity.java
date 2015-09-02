@@ -54,8 +54,11 @@ public class MainActivity extends ActionBarActivity {
 
                         switch (position) {
                             case 0:
-
+                                Intent intent = new Intent();
+                                intent.setClass(MainActivity.this, PreviewProduct.class);
+                                startActivity(intent);
                                 break;
+
                         }
                     }
                 })
