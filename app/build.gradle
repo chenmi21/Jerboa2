@@ -37,3 +37,9 @@ dependencies {
     //avoscloud-statistics 为 LeanCloud 统计包
     compile 'cn.leancloud.android:avoscloud-statistics:v3.+@aar'
 }
+
+
+dependencies {
+    compile 'com.android.support:recyclerview-v7:22.+'
+    compile 'com.android.support:cardview-v7:22.+'
+}
