@@ -19,5 +19,4 @@ public class App extends Application {
        testObject.saveInBackground();
    }
 
-
 }
