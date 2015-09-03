@@ -3,13 +3,14 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-
+    <include layout="@layout/toolbar_main" android:id="@+id/toolbar_main"/>
     <com.sothree.slidinguppanel.SlidingUpPanelLayout
         xmlns:sothree="http://schemas.android.com/apk/res-auto"
         android:id="@+id/sliding_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="top"
+        android:layout_below="@+id/toolbar_main"
         sothree:umanoPanelHeight="@dimen/drag_bar_height"
         sothree:umanoShadowHeight="4dp"
         sothree:umanoParalaxOffset="100dp"

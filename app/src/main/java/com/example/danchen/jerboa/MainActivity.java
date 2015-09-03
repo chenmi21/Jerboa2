@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +26,7 @@ public class MainActivity extends ActionBarActivity {
     private RecyclerView mRecyclerView;
 
     private ProductAdapter myAdapter;
+    private Toolbar mToolbar;
 
     private SlidingUpPanelLayout mLayout;
     private ArrayList<Button> mWhoBtns;
@@ -124,6 +126,7 @@ public class MainActivity extends ActionBarActivity {
         });
 
         initializeAllButtons();
+        initializeToolbar();
 
         mTxtWho = (TextView) findViewById(R.id.txtWho);
         mTxtWhat = (TextView) findViewById(R.id.txtWhat);
@@ -164,6 +167,11 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    protected void initializeToolbar(){
+        mToolbar = (Toolbar) findViewById(R.id.toolbar_main);
+        setSupportActionBar(mToolbar);
     }
 
     protected void initializeAllButtons(){
