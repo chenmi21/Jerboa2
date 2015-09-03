@@ -51,7 +51,7 @@ public class MainActivity extends ActionBarActivity {
             R.id.btnChildrenDay,
             R.id.btnMothersDay};
 
-    private List<Product> products = new ArrayList<>();
+    public static List<Product> products = new ArrayList<>();
 
             private String[] ChildBD_name = { "定制T恤", "蛋糕", "盘子"};
             private String[] ChildBD_pics = { "cbd1", "cbd2", "cbd3"};
@@ -145,9 +145,9 @@ public class MainActivity extends ActionBarActivity {
 
 
     // when refresh the filter call the following function to refresh the cards here
-        onChildBirthdayCalled();
+                onChildBirthdayCalled();
 
-    }
+            }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -221,10 +221,10 @@ public class MainActivity extends ActionBarActivity {
 
     public void onChildBirthdayCalled(){
         
-        products.clear();
+        //products.clear();
 
 
-            products = ServerCommunication.getProductCardViewList("父母","生日");
+            ServerCommunication.getProductCardViewList("父母","生日");
             mRecyclerView.scrollToPosition(myAdapter.getItemCount() - 1);
             myAdapter.notifyDataSetChanged();
 

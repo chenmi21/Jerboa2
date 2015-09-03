@@ -2,6 +2,7 @@ package com.example.danchen.jerboa.Server;
 
 import android.util.Log;
 
+import com.example.danchen.jerboa.MainActivity;
 import com.example.danchen.jerboa.Product;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -36,7 +37,7 @@ public class ServerCommunication {
         for (ParseObject productObj : productList) {
             Product product = new Product(productObj.getString("productName"),
                     productObj.getParseFile("cardViewImage").getUrl());
-            products.add(product);
+            MainActivity.products.add(product);
         }
 
         return products;
