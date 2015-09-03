@@ -12,25 +12,26 @@ import java.util.ArrayList;
 
 public class filterBtnOCL implements Button.OnClickListener {
     private ArrayList<Button> mAllSiblingButtons;
-    private int mPressedBtnID;
+    private String mPressedBtnString;
 
     public filterBtnOCL(ArrayList<Button> mAllSiblingButtons) {
         this.mAllSiblingButtons = mAllSiblingButtons;
-        this.mPressedBtnID = 0;
+        this.mPressedBtnString = "全部";
     }
 
     public void onClick(View v){
         if(v.isSelected()){
             v.setSelected(false);
-            mPressedBtnID = 0;
+            mPressedBtnString = "全部";
         } else{
             v.setSelected(true);
-            mPressedBtnID = v.getId();
+            Button b = (Button)v;
+            mPressedBtnString = b.getText().toString();
         }
         for(Button others : mAllSiblingButtons){
             if (others.getId() != v.getId()) others.setSelected(false);
         }
     }
 
-    public int getLastPressedButtonID(){ return mPressedBtnID; }
+    public String getLastPressedButtonString(){ return mPressedBtnString; }
 }

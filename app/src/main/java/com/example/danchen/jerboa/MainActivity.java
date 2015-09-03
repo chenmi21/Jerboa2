@@ -97,7 +97,7 @@ public class MainActivity extends ActionBarActivity {
         mLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
-                Toast.makeText(MainActivity.this, "onPanelSlide", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "onPanelSlide", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -107,8 +107,8 @@ public class MainActivity extends ActionBarActivity {
 
             @Override
             public void onPanelCollapsed(View panel) {
-                mTxtWho.setText(String.valueOf(mWhoOCL.getLastPressedButtonID()));
-                mTxtWhat.setText(String.valueOf(mWhatOCL.getLastPressedButtonID()));
+                mTxtWho.setText(mWhoOCL.getLastPressedButtonString());
+                mTxtWhat.setText(mWhatOCL.getLastPressedButtonString());
             }
 
             @Override
