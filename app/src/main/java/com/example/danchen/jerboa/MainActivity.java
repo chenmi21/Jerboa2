@@ -9,7 +9,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +24,29 @@ public class MainActivity extends ActionBarActivity {
     private RecyclerView mRecyclerView;
 
     private ProductAdapter myAdapter;
+
+    private SlidingUpPanelLayout mLayout;
+    private ArrayList<Button> mWhoBtns;
+    private ArrayList<Button> mWhatBtns;
+    private filterBtnOCL mWhoOCL;
+    private filterBtnOCL mWhatOCL;
+    private ImageView mDragDownBar;
+    private TextView mTxtWho;
+    private TextView mTxtWhat;
+    final static int numOfRecipients = 6;
+    final static int numOfOccasions = 6;
+    private int[] whoBtnResIDs ={R.id.btnMe,
+            R.id.btnChildren,
+            R.id.btnParents,
+            R.id.btnCouple,
+            R.id.btnFriend,
+            R.id.btnColleague};
+    private int[] whatBtnResIDs ={R.id.btnBday,
+            R.id.btnXmas,
+            R.id.btnNY,
+            R.id.btnCNY,
+            R.id.btnChildrenDay,
+            R.id.btnMothersDay};
 
     private List<Product> products = new ArrayList<>();
 
@@ -50,7 +78,7 @@ public class MainActivity extends ActionBarActivity {
                     public void onItemClick(View view, int position) {
                         // do whatever
 
-                        Toast.makeText(ProductAdapter.mContext, "The Item Clicked is: " + position+ " " +view.getId(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ProductAdapter.mContext, "The Item Clicked is: " + position + " " + view.getId(), Toast.LENGTH_SHORT).show();
 
                         switch (position) {
                             case 0:
@@ -63,6 +91,50 @@ public class MainActivity extends ActionBarActivity {
                     }
                 })
         );
+
+
+        mLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
+        mLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+            @Override
+            public void onPanelSlide(View panel, float slideOffset) {
+                Toast.makeText(MainActivity.this, "onPanelSlide", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onPanelExpanded(View panel) {
+                Toast.makeText(MainActivity.this, "onPanelExpanded", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onPanelCollapsed(View panel) {
+                mTxtWho.setText(String.valueOf(mWhoOCL.getLastPressedButtonID()));
+                mTxtWhat.setText(String.valueOf(mWhatOCL.getLastPressedButtonID()));
+            }
+
+            @Override
+            public void onPanelAnchored(View panel) {
+                Toast.makeText(MainActivity.this, "onPanelAnchored", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onPanelHidden(View panel) {
+                Toast.makeText(MainActivity.this, "onPanelHidden", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        initializeAllButtons();
+
+        mTxtWho = (TextView) findViewById(R.id.txtWho);
+        mTxtWhat = (TextView) findViewById(R.id.txtWhat);
+
+        mDragDownBar = (ImageView) findViewById(R.id.dragDownIcon);
+        mDragDownBar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickDragToExpandAndCollapse();
+            }
+        });
+
 
 
     // when refresh the filter call the following function to refresh the cards here
@@ -91,6 +163,49 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    protected void initializeAllButtons(){
+        mWhoBtns = new ArrayList<>();
+        mWhatBtns = new ArrayList<>();
+        mWhoOCL = new filterBtnOCL(mWhoBtns);
+        mWhatOCL = new filterBtnOCL(mWhatBtns);
+
+        for(int i = 0; i < numOfRecipients; i++){
+            Button b = (Button) findViewById(whoBtnResIDs[i]);
+            mWhoBtns.add(b);
+            mWhoBtns.get(i).setOnClickListener(mWhoOCL);
+        }
+
+        for(int i = 0; i < numOfOccasions; i++){
+            Button b = (Button) findViewById(whatBtnResIDs[i]);
+            mWhatBtns.add(b);
+            mWhatBtns.get(i).setOnClickListener(mWhatOCL);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mLayout != null &&
+                (mLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED || mLayout.getPanelState() == SlidingUpPanelLayout.PanelState.ANCHORED)) {
+            mLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+
+    public void clickDragToExpandAndCollapse(){
+        if (mLayout != null)
+        {
+            if (mLayout.getPanelState() == SlidingUpPanelLayout.PanelState.COLLAPSED){
+                mLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+            }
+            else if (mLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED){
+                mLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+            }
+
+        }
     }
 
     public void onChildBirthdayCalled(){

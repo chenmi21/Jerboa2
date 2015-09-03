@@ -17,4 +17,7 @@
     <dimen name="navigation_drawer_width">240dp</dimen>
     <dimen name="btm_btn_size">55dp</dimen>
     <dimen name="btn_margin_size">20dp</dimen>
+    <dimen name="sliding_panel_height">200dp</dimen>
+    <dimen name="drag_bar_height">25dp</dimen>
+    <dimen name="sliding_panel_and_drag_bar_height">225dp</dimen>
 </resources>
