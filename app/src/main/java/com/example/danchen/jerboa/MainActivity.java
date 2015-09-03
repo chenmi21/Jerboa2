@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.danchen.jerboa.Server.ServerCommunication;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.ArrayList;
@@ -213,7 +214,7 @@ public class MainActivity extends ActionBarActivity {
         products.clear();
         while (true)
         if (myAdapter.getItemCount() != ChildBD_name.length) {
-            products.add(new Product(ChildBD_name[myAdapter.getItemCount()], ChildBD_pics[myAdapter.getItemCount()]));
+            products = ServerCommunication.getProductCardViewList("父母","生日");
             mRecyclerView.scrollToPosition(myAdapter.getItemCount() - 1);
             myAdapter.notifyDataSetChanged();
         }

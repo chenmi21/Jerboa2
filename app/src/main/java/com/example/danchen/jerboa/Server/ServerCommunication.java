@@ -2,10 +2,10 @@ package com.example.danchen.jerboa.Server;
 
 import android.util.Log;
 
-import com.avos.avoscloud.AVException;
-import com.avos.avoscloud.AVObject;
-import com.avos.avoscloud.AVQuery;
 import com.example.danchen.jerboa.Product;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,22 +20,22 @@ public class ServerCommunication {
     public static List<Product> getProductCardViewList(String forWho, String occasion) {
         Log.d(TAG, "getProductCardView");
 
-        AVQuery<AVObject> productQuery = AVQuery.getQuery("ProductCardView");
-        List<AVObject> productList;
+        ParseQuery<ParseObject> productQuery = ParseQuery.getQuery("ProductCardView");
+        List<ParseObject> productList;
 
         productQuery.whereEqualTo("forWho", forWho);
-        productQuery.whereEqualTo("occasion", occasion);
+        productQuery.whereEqualTo("occastion", occasion);
         try {
             productList = productQuery.find();
-        } catch (AVException e) {
+        } catch (ParseException e) {
             Log.d(TAG, "getProductCardView error: " + e.getMessage());
             return null;
         }
 
         List<Product> products = new ArrayList<>();
-        for (AVObject productObj : productList) {
+        for (ParseObject productObj : productList) {
             Product product = new Product(productObj.getString("productName"),
-                    productObj.getAVFile("cardViewImage").getUrl());
+                    productObj.getParseFile("cardViewImage").getUrl());
             products.add(product);
         }
 
