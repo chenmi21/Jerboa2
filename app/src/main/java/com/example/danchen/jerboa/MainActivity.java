@@ -110,8 +110,11 @@ public class MainActivity extends ActionBarActivity {
 
             @Override
             public void onPanelCollapsed(View panel) {
+                String who = mWhoOCL.getLastPressedButtonString();
+                String what = mWhatOCL.getLastPressedButtonString();
                 mTxtWho.setText(mWhoOCL.getLastPressedButtonString());
                 mTxtWhat.setText(mWhatOCL.getLastPressedButtonString());
+                // onChildBirthdayCalled(who, what);
             }
 
             @Override
@@ -143,7 +146,6 @@ public class MainActivity extends ActionBarActivity {
 
     // when refresh the filter call the following function to refresh the cards here
         onChildBirthdayCalled();
-
 
     }
 
@@ -220,14 +222,12 @@ public class MainActivity extends ActionBarActivity {
     public void onChildBirthdayCalled(){
         
         products.clear();
-        while (true)
-        if (myAdapter.getItemCount() != ChildBD_name.length) {
+
+
             products = ServerCommunication.getProductCardViewList("父母","生日");
             mRecyclerView.scrollToPosition(myAdapter.getItemCount() - 1);
             myAdapter.notifyDataSetChanged();
-        }
-        else
-            break;
+
     }
 
 

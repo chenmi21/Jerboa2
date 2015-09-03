@@ -30,4 +30,9 @@ public class Product
             return -1;
         }
     }
+
+    public String getPicName(){
+        return this.picName;
+    }
+
 }
