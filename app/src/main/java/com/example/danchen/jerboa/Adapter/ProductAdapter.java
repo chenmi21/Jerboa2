@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.danchen.jerboa.Model.Product;
+import com.example.danchen.jerboa.Model.ProductCardView;
 import com.example.danchen.jerboa.R;
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 
@@ -21,14 +21,14 @@ import java.util.List;
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder>
 {
 
-    private List<Product> products;
+    private List<ProductCardView> productCardViews;
     Bitmap bitmap;
     public static Context mContext;
 
-    public ProductAdapter( Context context , List<Product> products)
+    public ProductAdapter( Context context , List<ProductCardView> productCardViews)
     {
         this.mContext = context;
-        this.products = products;
+        this.productCardViews = productCardViews;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 
 
         // 给ViewHolder设置元素
-        Product p = products.get(i);
+        ProductCardView p = productCardViews.get(i);
         String str = p.getPicName();
 
         viewHolder.mTextView.setText(p.name);
@@ -58,7 +58,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     public int getItemCount()
     {
         // 返回数据总数
-        return products == null ? 0 : products.size();
+        return productCardViews == null ? 0 : productCardViews.size();
     }
 
     // 重写的自定义ViewHolder

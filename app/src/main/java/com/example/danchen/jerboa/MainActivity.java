@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import com.example.danchen.jerboa.Adapter.ProductAdapter;
 import com.example.danchen.jerboa.Listener.RecyclerItemClickListener;
-import com.example.danchen.jerboa.Model.Product;
+import com.example.danchen.jerboa.Model.ProductCardView;
 import com.example.danchen.jerboa.Server.ServerCommunication;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
@@ -54,7 +54,7 @@ public class MainActivity extends ActionBarActivity {
             R.id.btnChildrenDay,
             R.id.btnMothersDay};
 
-    public static List<Product> products = new ArrayList<>();
+    public static List<ProductCardView> productCardViews = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +70,7 @@ public class MainActivity extends ActionBarActivity {
         // 设置固定大小
         mRecyclerView.setHasFixedSize(true);
         // 初始化自定义的适配器
-        myAdapter = new ProductAdapter(this, products);
+        myAdapter = new ProductAdapter(this, productCardViews);
         // 为mRecyclerView设置适配器
         mRecyclerView.setAdapter(myAdapter);
         mRecyclerView.addOnItemTouchListener(
@@ -78,11 +78,11 @@ public class MainActivity extends ActionBarActivity {
                     @Override
                     public void onItemClick(View view, int position) {
                         // do whatever
-                        Toast.makeText(ProductAdapter.mContext, "The Item Clicked is: " + products.get(position).name, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ProductAdapter.mContext, "The Item Clicked is: " + productCardViews.get(position).name, Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent();
                         //intent.setClass(MainActivity.this, EditProduct.class);
                         String Targetclass = getClassPosition(position);
-                        intent.putExtra("product",products.get(position).getId());
+                        intent.putExtra("product", productCardViews.get(position).getId());
                         intent.setClassName(MainActivity.this, Targetclass);
                         startActivity(intent);
 
@@ -205,13 +205,13 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void refreshCardView(String forWho, String forWhat) {
-        products.clear();
+        productCardViews.clear();
         ServerCommunication.getProductCardViewList(forWho, forWhat);
         myAdapter.notifyDataSetChanged();
     }
 
     public String getClassPosition(int position) {
-        switch (products.get(position).id) {
+        switch (productCardViews.get(position).id) {
             case 1:
                 return EditProduct.class.getCanonicalName();
             case 2:

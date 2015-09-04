@@ -5,13 +5,13 @@ import android.content.Context;
 /**
  * Created by mshzhb on 9/1/2015.
  */
-public class Product
+public class ProductCardView
 {
     public String name;
     public String picName;
     public int id;
 
-    public Product(String name, String picName, int id)
+    public ProductCardView(String name, String picName, int id)
     {
         this.name = name;
         this.picName = picName;

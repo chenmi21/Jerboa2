@@ -3,7 +3,7 @@ package com.example.danchen.jerboa.Server;
 import android.util.Log;
 
 import com.example.danchen.jerboa.MainActivity;
-import com.example.danchen.jerboa.Model.Product;
+import com.example.danchen.jerboa.Model.ProductCardView;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -33,10 +33,10 @@ public class ServerCommunication {
         }
 
         for (ParseObject productObj : productList) {
-            Product product = new Product(productObj.getString("productName"),
+            ProductCardView productCardView = new ProductCardView(productObj.getString("productName"),
                     productObj.getParseFile("cardViewImage").getUrl(),
                     productObj.getInt("productId"));
-            MainActivity.products.add(product);
+            MainActivity.productCardViews.add(productCardView);
         }
     }
 }
