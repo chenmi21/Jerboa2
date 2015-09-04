@@ -11,10 +11,11 @@ public class Product
     String picName;
     int id;
 
-    public Product(String name, String picName)
+    public Product(String name, String picName, int id)
     {
         this.name = name;
         this.picName = picName;
+        this.id = id;
     }
 
     public int getImageResourceId( Context context )

@@ -18,11 +18,11 @@ public class ServerCommunication {
 
     private static final String TAG = "ServerCommunication";
 
-    public static List<Product> getProductCardViewList(String forWho, String occasion) {
+    public static void getProductCardViewList(String forWho, String occasion) {
         Log.d(TAG, "getProductCardView");
 
         ParseQuery<ParseObject> productQuery = ParseQuery.getQuery("ProductCardView");
-        List<ParseObject> productList;
+        List<ParseObject> productList = new ArrayList<>();
 
         // Look for specific product cardview image
         if (!forWho.equals("全部") && !occasion.equals("全部")) {
@@ -35,16 +35,13 @@ public class ServerCommunication {
             productList = productQuery.find();
         } catch (ParseException e) {
             Log.d(TAG, "getProductCardView error: " + e.getMessage());
-            return null;
         }
 
-        List<Product> products = new ArrayList<>();
         for (ParseObject productObj : productList) {
             Product product = new Product(productObj.getString("productName"),
-                    productObj.getParseFile("cardViewImage").getUrl());
+                    productObj.getParseFile("cardViewImage").getUrl(),
+                    productObj.getInt("productId"));
             MainActivity.products.add(product);
         }
-
-        return products;
     }
 }

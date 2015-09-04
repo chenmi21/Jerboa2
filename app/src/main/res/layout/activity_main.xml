@@ -67,7 +67,7 @@
                             android:padding="5dp"/>
                         <Button android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="儿女"
+                            android:text="孩子"
                             android:textColor="@drawable/text_color_selector"
                             android:background="@drawable/button_selector"
                             android:id="@+id/btnChildren"/>
