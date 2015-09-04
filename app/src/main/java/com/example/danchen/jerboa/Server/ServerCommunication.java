@@ -24,8 +24,13 @@ public class ServerCommunication {
         ParseQuery<ParseObject> productQuery = ParseQuery.getQuery("ProductCardView");
         List<ParseObject> productList;
 
-        productQuery.whereEqualTo("forWho", forWho);
-        productQuery.whereEqualTo("occastion", occasion);
+        // Look for specific product cardview image
+        if (!forWho.equals("全部") && !occasion.equals("全部")) {
+            productQuery.whereEqualTo("forWho", forWho);
+            productQuery.whereEqualTo("occastion", occasion);
+        } else {
+            productQuery.whereEqualTo("forWho", "全部");
+        }
         try {
             productList = productQuery.find();
         } catch (ParseException e) {

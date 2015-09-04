@@ -51,13 +51,8 @@ public class MainActivity extends ActionBarActivity {
 
     public static List<Product> products = new ArrayList<>();
 
-            private String[] ChildBD_name = { "定制T恤", "蛋糕", "盘子"};
-            private String[] ChildBD_pics = { "cbd1", "cbd2", "cbd3"};
-            private String[] ParentsBD_name = { "父母定制T恤", "蛋糕", "盘子"};
-            private String[] ParentsBD_pics = { "cbd1", "cbd2", "cbd3"};
-
-            @Override
-            protected void onCreate(Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -110,7 +105,7 @@ public class MainActivity extends ActionBarActivity {
             public void onPanelCollapsed(View panel) {
                 String who = mWhoOCL.getLastPressedButtonString();
                 String what = mWhatOCL.getLastPressedButtonString();
-                // onChildBirthdayCalled(who, what);
+                refreshCardView(who, what);
             }
 
             @Override
@@ -137,12 +132,8 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
-
-
-    // when refresh the filter call the following function to refresh the cards here
-                onChildBirthdayCalled();
-
-            }
+        refreshCardView("全部", "全部");
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -214,28 +205,9 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
-    public void onChildBirthdayCalled(){
-        
-        //products.clear();
-
-
-            ServerCommunication.getProductCardViewList("父母","生日");
-            mRecyclerView.scrollToPosition(myAdapter.getItemCount() - 1);
-            myAdapter.notifyDataSetChanged();
-
+    public void refreshCardView(String forWho, String forWhat){
+        ServerCommunication.getProductCardViewList(forWho, forWhat);
+        myAdapter.notifyDataSetChanged();
     }
 
-
-
-    public void onParentsBirthdayCalled(){
-        products.clear();
-        while (true)
-            if (myAdapter.getItemCount() != ParentsBD_name.length) {
-                products.add(new Product(ParentsBD_name[myAdapter.getItemCount()], ParentsBD_pics[myAdapter.getItemCount()]));
-                mRecyclerView.scrollToPosition(myAdapter.getItemCount() - 1);
-                myAdapter.notifyDataSetChanged();
-            }
-            else
-                break;
-    }
 }
