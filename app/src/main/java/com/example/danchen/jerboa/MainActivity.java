@@ -206,6 +206,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void refreshCardView(String forWho, String forWhat){
+        products.clear();
         ServerCommunication.getProductCardViewList(forWho, forWhat);
         myAdapter.notifyDataSetChanged();
     }

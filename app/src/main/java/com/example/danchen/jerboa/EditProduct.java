@@ -14,10 +14,16 @@ import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class EditProduct extends AppCompatActivity  implements View.OnTouchListener{
     ViewGroup mRrootLayout;
     ImageView mImageView;
+    ImageView mImageView2;
     int _xDelta;
     int _yDelta;
     int imgSize = 450;
@@ -25,7 +31,8 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
     static final int DRAG = 1;
     static final int ZOOM = 2;
     int mode = NONE;
-
+    public List<ImageView> ImageViewList = new ArrayList<>();
+    public List<RelativeLayout.LayoutParams> layoutParamsList = new ArrayList<>();
     // these PointF objects are used to record the point(s) the user is touching
     PointF start = new PointF();
     PointF mid = new PointF();
@@ -36,14 +43,29 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
         setContentView(R.layout.activity_edit_product);
         mRrootLayout = (ViewGroup) findViewById(R.id.imgLayout);
         mImageView = (ImageView) mRrootLayout.findViewById(R.id.imgview);
-
+        mImageView2 = (ImageView) mRrootLayout.findViewById(R.id.imageView3);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(imgSize, imgSize);
+        RelativeLayout.LayoutParams layoutParams2 = new RelativeLayout.LayoutParams(imgSize, imgSize);
         mImageView.setLayoutParams(layoutParams);
         mImageView.setOnTouchListener(this);
-
+        mImageView2.setLayoutParams(layoutParams2);
+        mImageView2.setOnTouchListener(this);
 
     }
 
+    public void addImageViewUrl(String src){
+
+        ImageView imgView = new ImageView(this);
+        ImageViewList.add(imgView);
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(imgSize, imgSize);
+        layoutParamsList.add(layoutParams);
+        mImageView.setLayoutParams(layoutParams);
+        mImageView.setOnTouchListener(this);
+        UrlImageViewHelper.setUrlDrawable(imgView, src);
+        imgView.setVisibility(View.VISIBLE);
+        mRrootLayout.addView(imgView);
+
+    }
 
     public boolean onTouch(View view, MotionEvent event) {
         float scale;
@@ -65,11 +87,15 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
 
                 oldDist = spacing(event);
                 if (oldDist > 8f) {
+                    RelativeLayout.LayoutParams zParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
                     midPoint(mid, event);
+                    _xDelta = (int)mid.x - zParams.leftMargin;
+                    _yDelta = (int)mid.y - zParams.topMargin;
                     mode = ZOOM;
                 }
                 break;
             case MotionEvent.ACTION_POINTER_UP:
+                mode = NONE;
                 break;
             case MotionEvent.ACTION_MOVE:
                 RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) view
@@ -93,15 +119,20 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
                         // matrix...if scale > 1 means
                         // zoom in...if scale < 1 means
                         // zoom out
-                        if (scale > 1) {
-                            scale = 1.01f;
-                        } else if (scale < 1) {
-                            scale = 0.995f;
-                        }
+                       // if (scale > 1) {
+                          //  scale = 1.015f;
+                        //} else if (scale < 1) {
+                          //  scale = 0.990f;
+                       // }
                         imgSize = (int)(imgSize * scale);
                         layoutParams.width = imgSize;
                         layoutParams.height = imgSize;
+                        layoutParams.leftMargin = (int)mid.x - _xDelta;
+                        layoutParams.topMargin = (int)mid.y  - _yDelta;
+                        layoutParams.rightMargin = -250;
+                        layoutParams.bottomMargin = -250;
                         view.setLayoutParams(layoutParams);
+                        oldDist = newDist;
                     }
                 }
                 break;
