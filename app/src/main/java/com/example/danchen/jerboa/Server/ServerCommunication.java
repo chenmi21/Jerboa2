@@ -3,8 +3,10 @@ package com.example.danchen.jerboa.Server;
 import android.util.Log;
 
 import com.example.danchen.jerboa.MainActivity;
+import com.example.danchen.jerboa.Model.Product;
 import com.example.danchen.jerboa.Model.ProductCardView;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
@@ -39,4 +41,28 @@ public class ServerCommunication {
             MainActivity.productCardViews.add(productCardView);
         }
     }
+
+    public static void getProductList(int productId) {
+        Log.d(TAG, "getProductList");
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Product");
+        ParseObject object = null;
+
+        query.whereEqualTo("productId", productId);
+        try {
+            object = query.getFirst();
+        } catch (ParseException e) {
+            Log.d(TAG, "getProductList error: " + e.getMessage());
+        }
+
+        List<String> urlList = new ArrayList<>();
+        int imageCount = object.getInt("productImageCount");
+        for (int i = 1; i <= imageCount; i ++) {
+            ParseFile imageFile = object.getParseFile("image" + i);
+            urlList.add(imageFile.getUrl());
+        }
+        Product product = new Product(object.getInt("productId"), object.getString("productName"),
+                imageCount, urlList);
+    }
+
 }
