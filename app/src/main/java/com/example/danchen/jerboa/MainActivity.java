@@ -34,8 +34,6 @@ public class MainActivity extends ActionBarActivity {
     private filterBtnOCL mWhoOCL;
     private filterBtnOCL mWhatOCL;
     private ImageView mDragDownBar;
-    private TextView mTxtWho;
-    private TextView mTxtWhat;
     final static int numOfRecipients = 6;
     final static int numOfOccasions = 6;
     private int[] whoBtnResIDs ={R.id.btnMe,
@@ -86,7 +84,7 @@ public class MainActivity extends ActionBarActivity {
                         switch (position) {
                             case 0:
                                 Intent intent = new Intent();
-                                intent.setClass(MainActivity.this, PreviewProduct.class);
+                                intent.setClass(MainActivity.this, EditProduct.class);
                                 startActivity(intent);
                                 break;
 
@@ -112,8 +110,6 @@ public class MainActivity extends ActionBarActivity {
             public void onPanelCollapsed(View panel) {
                 String who = mWhoOCL.getLastPressedButtonString();
                 String what = mWhatOCL.getLastPressedButtonString();
-                mTxtWho.setText(mWhoOCL.getLastPressedButtonString());
-                mTxtWhat.setText(mWhatOCL.getLastPressedButtonString());
                 // onChildBirthdayCalled(who, what);
             }
 
@@ -131,8 +127,7 @@ public class MainActivity extends ActionBarActivity {
         initializeAllButtons();
         initializeToolbar();
 
-        mTxtWho = (TextView) findViewById(R.id.txtWho);
-        mTxtWhat = (TextView) findViewById(R.id.txtWhat);
+
 
         mDragDownBar = (ImageView) findViewById(R.id.dragDownIcon);
         mDragDownBar.setOnClickListener(new View.OnClickListener() {

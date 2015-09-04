@@ -77,5 +77,6 @@
     <string name="title_activity_manage_address">ManageAddress</string>
     <string name="title_activity_edit_address">EditAddress</string>
     <string name="title_activity_splash">SplashActivity</string>
+    <string name="title_activity_edit_product">EditProduct</string>
 
 </resources>

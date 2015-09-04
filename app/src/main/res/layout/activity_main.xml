@@ -29,22 +29,7 @@
                 android:layout_height="match_parent"
                 tools:context=".MyActivity"
                 android:layout_marginTop="@dimen/drag_bar_height" />
-            <TextView android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center|left"
-                android:text="empty"
-                android:clickable="true"
-                android:focusable="false"
-                android:focusableInTouchMode="true"
-                android:textSize="16sp"
-                android:id="@+id/txtWho" />
-            <TextView android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center|right"
-                android:text="empty"
-                android:focusable="false"
-                android:focusableInTouchMode="true"
-                android:id="@+id/txtWhat" />
+
         </FrameLayout>
 
         <!-- SLIDING LAYOUT -->
