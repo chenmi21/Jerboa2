@@ -3,15 +3,19 @@ package com.example.danchen.jerboa.Adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.danchen.jerboa.Model.ProductCardView;
 import com.example.danchen.jerboa.R;
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
+
+import org.apache.http.impl.io.ContentLengthInputStream;
 
 import java.util.List;
 
@@ -37,6 +41,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         // 给ViewHolder设置布局文件
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_view, viewGroup, false);
         return new ViewHolder(v);
+
+
     }
 
     @Override
@@ -53,6 +59,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         UrlImageViewHelper.setUrlDrawable(viewHolder.mImageView, str);
         //viewHolder.mImageView.setImageResource(p.getImageResourceId(mContext));
     }
+
+
 
     @Override
     public int getItemCount()
@@ -74,6 +82,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             super(v);
             mTextView = (TextView) v.findViewById(R.id.productName);
             mImageView = (ImageView) v.findViewById(R.id.productImage);
+
+
+
         }
     }
 

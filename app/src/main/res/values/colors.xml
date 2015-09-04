@@ -119,6 +119,7 @@
     <color name="gainsboro">#DCDCDC</color>
     <!-- 淡灰色 -->
     <color name="crimson">#DC143C</color>
+    <color name="deletecolor">#96DC143C</color>
     <!-- 暗深红色 -->
     <color name="palevioletred">#DB7093</color>
     <!-- 苍紫罗兰色 -->
@@ -300,7 +301,7 @@
     <!-- 海军色 -->
     <color name="black">#000000</color>
     <!-- 黑色 -->
-
+    <color name="none">#00000000</color>
     <color name="ColorPrimary">#FF5722</color>
     <color name="ColorPrimaryDark">#E64A19</color>
 

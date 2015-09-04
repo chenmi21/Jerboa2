@@ -22,11 +22,11 @@ import java.util.List;
 
 public class EditProduct extends AppCompatActivity  implements View.OnTouchListener{
     ViewGroup mRrootLayout;
-    ImageView mImageView;
-    ImageView mImageView2;
+    ImageView garbage;
+
     int _xDelta;
     int _yDelta;
-    int imgSize = 450;
+    int imgSize = 250;
     static final int NONE = 0;
     static final int DRAG = 1;
     static final int ZOOM = 2;
@@ -41,21 +41,12 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_product);
+        garbage = (ImageView)findViewById(R.id.garbagebin);
+        garbage.setVisibility(View.INVISIBLE);
         mRrootLayout = (ViewGroup) findViewById(R.id.imgLayout);
-       // addImageViewResources(R.drawable.logo);
-        //addImageViewResources(R.mipmap.ic_launcher);
-        ImageView imgView = new ImageView(EditProduct.this);
 
-        // RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(imgSize, imgSize);
-
-        mRrootLayout.addView(imgView);
-        //
-        // mImageView.setLayoutParams(layoutParams);
-        // imgView.setVisibility(View.VISIBLE);
-        //  mImageView.setOnTouchListener(this);
-
-        ImageViewList.add(imgView);
-        mImageView.setImageResource(R.drawable.logo);
+        addImageViewResources(R.drawable.logo);
+        addImageViewResources(R.mipmap.ic_launcher);
     }
 
     public void addImageViewUrl(String src){
@@ -65,28 +56,27 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(imgSize, imgSize);
         layoutParamsList.add(layoutParams);
         mRrootLayout.addView(imgView);
-        mImageView.setLayoutParams(layoutParams);
-        mImageView.setOnTouchListener(this);
+        imgView.setLayoutParams(layoutParams);
+        imgView.setOnTouchListener(this);
         UrlImageViewHelper.setUrlDrawable(imgView, src);
         imgView.setVisibility(View.VISIBLE);
 
     }
 
     public void addImageViewResources(int src){
-
         ImageView imgView = new ImageView(EditProduct.this);
 
-       // RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(imgSize, imgSize);
+       RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(imgSize, imgSize);
 
         mRrootLayout.addView(imgView);
-       //
-       // mImageView.setLayoutParams(layoutParams);
-       // imgView.setVisibility(View.VISIBLE);
-       //  mImageView.setOnTouchListener(this);
+
+        imgView.setLayoutParams(layoutParams);
+        imgView.setVisibility(View.VISIBLE);
+        imgView.setOnTouchListener(this);
 
         ImageViewList.add(imgView);
-        mImageView.setImageResource(R.drawable.logo);
-        // layoutParamsList.add(layoutParams);
+        imgView.setImageResource(src);
+        layoutParamsList.add(layoutParams);
     }
 
     public boolean onTouch(View view, MotionEvent event) {
@@ -95,6 +85,8 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
         final int Y = (int) event.getRawY();
         switch (event.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN:
+                view.setBackgroundResource(R.drawable.border);
+                garbage.setVisibility(View.VISIBLE);
                 RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
                 _xDelta = X - lParams.leftMargin;
                 _yDelta = Y - lParams.topMargin;
@@ -104,6 +96,11 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
                 break;
             case MotionEvent.ACTION_UP:
                 mode = NONE;
+                garbage.setVisibility(View.INVISIBLE);
+                view.setBackgroundResource(R.color.none);
+                if((int) event.getRawY() > 1340){
+                    view.setVisibility(View.GONE);
+                }
                 break;
             case MotionEvent.ACTION_POINTER_DOWN:
 
@@ -128,6 +125,13 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
                     layoutParams.rightMargin = -250;
                     layoutParams.bottomMargin = -250;
                     view.setLayoutParams(layoutParams);
+
+                    if((int) event.getRawY() > 1340)
+                    {
+                        view.setBackgroundResource(R.color.deletecolor);
+                    }
+                    else
+                        view.setBackgroundResource(R.drawable.border);
 
                 }
                 else if (mode == ZOOM)

@@ -77,20 +77,23 @@ public class MainActivity extends ActionBarActivity {
         // 为mRecyclerView设置适配器
         mRecyclerView.setAdapter(myAdapter);
         mRecyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(ProductAdapter.mContext, new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
+              new RecyclerItemClickListener(ProductAdapter.mContext, new RecyclerItemClickListener.OnItemClickListener() {
+                  @Override
+                 public void onItemClick(View view, int position) {
                         // do whatever
-                        Toast.makeText(ProductAdapter.mContext, "The Item Clicked is: " + productCardViews.get(position).name, Toast.LENGTH_SHORT).show();
+                      if(position == -1)
+                          return;
+                       Toast.makeText(ProductAdapter.mContext, "The Item Clicked is: " + position, Toast.LENGTH_SHORT).show();
+
                         Intent intent = new Intent();
-                        //intent.setClass(MainActivity.this, EditProduct.class);
+                        intent.setClass(MainActivity.this, EditProduct.class);
                         String Targetclass = getClassPosition(position);
                         intent.putExtra("product", productCardViews.get(position).getId());
                         intent.setClassName(MainActivity.this, Targetclass);
-                        startActivity(intent);
+                       startActivity(intent);
 
-                    }
-                })
+                 }
+              })
         );
 
 
