@@ -18,7 +18,6 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.PopupMenu;
 import android.text.Layout;
 import android.text.StaticLayout;
@@ -53,19 +52,37 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class PreviewProduct extends Activity implements View.OnTouchListener  {
+public class PreviewProduct extends Activity implements View.OnTouchListener {
 
-    // these matrices will be used to move and zoom image
-    public static Matrix matrix = new Matrix();
-    private Matrix savedMatrix = new Matrix();
-    private final int GALLERY_REQUEST_CODE = 2222;
-
-    public static Matrix matrixtxt = new Matrix();
-    private Matrix savedMatrixtxt = new Matrix();
     // we can be in one of these 3 states
     private static final int NONE = 0;
     private static final int DRAG = 1;
     private static final int ZOOM = 2;
+    /*
+    文字框
+     */
+    private final static int START_DRAGGING = 0;
+    private final static int STOP_DRAGGING = 1;
+    // these matrices will be used to move and zoom image
+    public static Matrix matrix = new Matrix();
+    public static Matrix matrixtxt = new Matrix();
+    public static Bitmap pictureObject;
+    public static int isPreview = 0;
+    final Context context = PreviewProduct.this;
+    private final int GALLERY_REQUEST_CODE = 2222;
+    public Bitmap screenshot;
+    public HorizontalScrollView horizontalScrollView;
+    public LinearLayout buttonLayout;
+    int shirtState = 0; //0 白 1 黑
+    int flag = 0;
+    float xAxis = 0f;
+    float yAxis = 0f;
+    float lastXAxis = 0f;
+    float lastYAxis = 0f;
+    int bottonStatus = 0; //衣服
+    int button_size;
+    private Matrix savedMatrix = new Matrix();
+    private Matrix savedMatrixtxt = new Matrix();
     private int mode = NONE;
     // remember some things for zooming
     private PointF start = new PointF();
@@ -74,50 +91,60 @@ public class PreviewProduct extends Activity implements View.OnTouchListener  {
     private float d = 0f;
     private float newRot = 0f;
     private float[] lastEvent = null;
-
     private ImageView img;
     private ImageView txtimg;
     private ImageView shirt;
     private EditText editText;
     private Bitmap textbitmap;
-    public static Bitmap pictureObject;
-    public static int isPreview = 0;
-    int shirtState = 0; //0 白 1 黑
     private String stringInfo;
     private TextView textView;
     private TextView textViewXY;
     private Spinner spinner;
-    public Bitmap screenshot;
-    public HorizontalScrollView horizontalScrollView;
-    public LinearLayout buttonLayout;
-    /*
-    文字框
-     */
-    private final static int START_DRAGGING = 0;
-    private final static int STOP_DRAGGING = 1;
     private SeekBar seekBar;
     private int status;
-    int flag=0;
-    float xAxis = 0f;
-    float yAxis = 0f;
-    float lastXAxis = 0f;
-    float lastYAxis = 0f;
-    int bottonStatus = 0; //衣服
     //动态button
     private Button clothStyleButton, clothInfoBotton, cloth3dpreviewButton;
     private Button textAddButton, textColorButton, textFrontButton;
     private Button imgChangeButton, imgFitButton;
     private ScaleGestureDetector scaleGD;
     private LinearLayout.LayoutParams params;
-    int button_size;
 
-    final Context context = PreviewProduct.this;
+    public static Bitmap drawText(String text, int textWidth, int textSize) {
+// Get text dimensions
+        TextPaint textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG
+                | Paint.LINEAR_TEXT_FLAG);
+        textPaint.setStyle(Paint.Style.FILL);
+        textPaint.setColor(Color.BLACK);
+        textPaint.setTextSize(textSize);
+        StaticLayout mTextLayout = new StaticLayout(text, textPaint,
+                textWidth, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+
+// Create bitmap and canvas to draw to
+        Bitmap b = Bitmap.createBitmap(textWidth, mTextLayout.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas c = new Canvas(b);
+
+// Draw background
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG
+                | Paint.LINEAR_TEXT_FLAG);
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(Color.TRANSPARENT);
+        c.drawPaint(paint);
+
+// Draw text
+        c.save();
+        c.translate(0, 0);
+        mTextLayout.draw(c);
+        c.restore();
+
+        return b;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        button_size= (int)getResources().getDimension(R.dimen.btm_btn_size);
-        params = new LinearLayout.LayoutParams(button_size,button_size);
+        button_size = (int) getResources().getDimension(R.dimen.btm_btn_size);
+        params = new LinearLayout.LayoutParams(button_size, button_size);
         setContentView(R.layout.activity_preview_product);
         scaleGD = new ScaleGestureDetector(context, new simpleOnScaleGestureListener());
         buttonLayout = (LinearLayout) findViewById(R.id.buttonlayout);
@@ -126,33 +153,31 @@ public class PreviewProduct extends Activity implements View.OnTouchListener  {
 
         // Daniel's part
         String callingActivity = getIntent().getStringExtra("calling-activity");
-        if(callingActivity != null){
-            if(callingActivity.equals("ImageEditing")){
-                try{
+        if (callingActivity != null) {
+            if (callingActivity.equals("ImageEditing")) {
+                try {
                     String filePath = getIntent().getStringExtra("imagePath");
                     File f = new File(filePath);
                     FileInputStream fis = new FileInputStream(f);
                     Bitmap bm = BitmapFactory.decodeStream(fis);
                     img.setImageBitmap(bm);
-                }  catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
-        }
-        else
-        img.setImageResource(R.drawable.logo);
+        } else
+            img.setImageResource(R.drawable.logo);
         // Daniel, end
         seekBar = (SeekBar) findViewById(R.id.seekBar);
-       // txtimg = (ImageView)findViewById(R.id.textImg);
+        // txtimg = (ImageView)findViewById(R.id.textImg);
         textViewXY = (TextView) findViewById(R.id.textView2);
         textViewXY.setVisibility(textViewXY.INVISIBLE);
         textView = (TextView) findViewById(R.id.textView);
         //spinner = (Spinner) findViewById(R.id.spinner);
-      //  horizontalScrollView = (HorizontalScrollView) findViewById(R.id.horizontalScrollView);
+        //  horizontalScrollView = (HorizontalScrollView) findViewById(R.id.horizontalScrollView);
         String[] mItems = getResources().getStringArray(R.array.fronts_array);
 // 建立Adapter并且绑定数据源
-        ArrayAdapter<String> _Adapter=new ArrayAdapter<String>(this,R.layout.spinner_item_dropdown, mItems);
-
+        ArrayAdapter<String> _Adapter = new ArrayAdapter<String>(this, R.layout.spinner_item_dropdown, mItems);
 
 
         img.setOnTouchListener(this);
@@ -184,6 +209,7 @@ public class PreviewProduct extends Activity implements View.OnTouchListener  {
         //動態button
         clothButton();
     }
+
     public void onResume(Bundle savedInstanceState) {
 
     }
@@ -211,7 +237,7 @@ public class PreviewProduct extends Activity implements View.OnTouchListener  {
     public boolean onTouch(View v, MotionEvent event) {
         switch (v.getId()) {
             case R.id.logo:
-                if(bottonStatus != 0) {
+                if (bottonStatus != 0) {
                     bottonStatus = 0;
                     clothButton();
                 }
@@ -282,11 +308,11 @@ public class PreviewProduct extends Activity implements View.OnTouchListener  {
             case R.id.textView:
 
                 // handle touch events here
-                if(bottonStatus != 1) {
+                if (bottonStatus != 1) {
                     bottonStatus = 1;
                     textButton();
                 }
-                if(event.getPointerCount() == 1) {
+                if (event.getPointerCount() == 1) {
                     if (event.getAction() == MotionEvent.ACTION_DOWN) {
                         seekBar.setVisibility(seekBar.VISIBLE);
                         img.setOnTouchListener(null);
@@ -320,8 +346,7 @@ public class PreviewProduct extends Activity implements View.OnTouchListener  {
 
                         }
                     }
-                }
-                else{ //when 2 pointers are present
+                } else { //when 2 pointers are present
                     switch (event.getAction()) {
                         case MotionEvent.ACTION_DOWN:
                             // Disallow ScrollView to intercept touch events.
@@ -343,8 +368,8 @@ public class PreviewProduct extends Activity implements View.OnTouchListener  {
                 }
 
 
-        break;
-    }
+                break;
+        }
 
         return true;
     }
@@ -380,8 +405,6 @@ public class PreviewProduct extends Activity implements View.OnTouchListener  {
         return (float) Math.toDegrees(radians);
     }
 
-
-
     public void changeTextColor(View v) {
         ColorPickerDialogBuilder
                 .with(context)
@@ -398,7 +421,7 @@ public class PreviewProduct extends Activity implements View.OnTouchListener  {
                 .setPositiveButton("ok", new ColorPickerClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int selectedColor, Integer[] allColors) {
-                    textView.setTextColor(selectedColor);
+                        textView.setTextColor(selectedColor);
                     }
                 })
                 .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
@@ -411,41 +434,11 @@ public class PreviewProduct extends Activity implements View.OnTouchListener  {
     }
 
     public void threeDView(View v) {
-       // Intent intent = new Intent();
+        // Intent intent = new Intent();
 
-       // intent.setClass(PreviewProduct.this, LoadModels.class);
+        // intent.setClass(PreviewProduct.this, LoadModels.class);
 
-     //   startActivity(intent);
-    }
-
-    public static Bitmap drawText(String text, int textWidth, int textSize) {
-// Get text dimensions
-        TextPaint textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG
-                | Paint.LINEAR_TEXT_FLAG);
-        textPaint.setStyle(Paint.Style.FILL);
-        textPaint.setColor(Color.BLACK);
-        textPaint.setTextSize(textSize);
-        StaticLayout mTextLayout = new StaticLayout(text, textPaint,
-                textWidth, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
-
-// Create bitmap and canvas to draw to
-        Bitmap b = Bitmap.createBitmap(textWidth, mTextLayout.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas c = new Canvas(b);
-
-// Draw background
-        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG
-                | Paint.LINEAR_TEXT_FLAG);
-        paint.setStyle(Paint.Style.FILL);
-        paint.setColor(Color.TRANSPARENT);
-        c.drawPaint(paint);
-
-// Draw text
-        c.save();
-        c.translate(0, 0);
-        mTextLayout.draw(c);
-        c.restore();
-
-        return b;
+        //   startActivity(intent);
     }
 
     public Bitmap textToBitmap(String text, float textSize, int textColor) {
@@ -462,7 +455,7 @@ public class PreviewProduct extends Activity implements View.OnTouchListener  {
         return image;
     }
 
-    public void setTextImg(View v){
+    public void setTextImg(View v) {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
         alert.setTitle("请输入文字");
@@ -497,7 +490,7 @@ public class PreviewProduct extends Activity implements View.OnTouchListener  {
 
         startActivityForResult(galleryIntent, GALLERY_REQUEST_CODE);
 
-}
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -507,7 +500,7 @@ public class PreviewProduct extends Activity implements View.OnTouchListener  {
         if (data != null && requestCode == GALLERY_REQUEST_CODE) {
 
             Uri selectedImageUri = data.getData();
-            String[] fileColumn = { MediaStore.Images.Media.DATA };
+            String[] fileColumn = {MediaStore.Images.Media.DATA};
 
             Cursor imageCursor = getContentResolver().query(selectedImageUri,
                     fileColumn, null, null, null);
@@ -515,7 +508,7 @@ public class PreviewProduct extends Activity implements View.OnTouchListener  {
 
             int fileColumnIndex = imageCursor.getColumnIndex(fileColumn[0]);
             String picturePath = imageCursor.getString(fileColumnIndex);
-            File f =new File(picturePath);
+            File f = new File(picturePath);
             pictureObject = decodeFile(f);
             img.setImageBitmap(pictureObject);
             isPreview = 1;
@@ -531,10 +524,10 @@ public class PreviewProduct extends Activity implements View.OnTouchListener  {
         View v = getWindow().getDecorView();//.getRootView();
         v.setDrawingCacheEnabled(true);
         screenshot = Bitmap.createBitmap(v.getDrawingCache());
-       // screenshot = relativeLayout.getDrawingCache();
+        // screenshot = relativeLayout.getDrawingCache();
         v.setDrawingCacheEnabled(false);
         try {
-            FileOutputStream fos  = this.openFileOutput("screenshot", Context.MODE_PRIVATE);
+            FileOutputStream fos = this.openFileOutput("screenshot", Context.MODE_PRIVATE);
             screenshot.compress(Bitmap.CompressFormat.PNG, 100, fos);
             fos.flush();
             fos.close();
@@ -549,8 +542,6 @@ public class PreviewProduct extends Activity implements View.OnTouchListener  {
         }
 
 
-
-
     }
 
 
@@ -562,11 +553,11 @@ public class PreviewProduct extends Activity implements View.OnTouchListener  {
             BitmapFactory.decodeStream(new FileInputStream(f), null, o);
 
             // The new size we want to scale to
-            final int REQUIRED_SIZE=256;
+            final int REQUIRED_SIZE = 256;
 
             // Find the correct scale value. It should be the power of 2.
             int scale = 1;
-            while(o.outWidth / scale / 2 >= REQUIRED_SIZE &&
+            while (o.outWidth / scale / 2 >= REQUIRED_SIZE &&
                     o.outHeight / scale / 2 >= REQUIRED_SIZE) {
                 scale *= 2;
             }
@@ -575,12 +566,13 @@ public class PreviewProduct extends Activity implements View.OnTouchListener  {
             BitmapFactory.Options o2 = new BitmapFactory.Options();
             o2.inSampleSize = scale;
             return BitmapFactory.decodeStream(new FileInputStream(f), null, o2);
-        } catch (FileNotFoundException e) {}
+        } catch (FileNotFoundException e) {
+        }
         return null;
     }
 
-    private void clothButton(){
-        if((buttonLayout).getChildCount() > 0)
+    private void clothButton() {
+        if ((buttonLayout).getChildCount() > 0)
             (buttonLayout).removeAllViews();
 
 
@@ -600,7 +592,6 @@ public class PreviewProduct extends Activity implements View.OnTouchListener  {
         //cloth3dpreviewButton.setText("預覽");
         cloth3dpreviewButton.setBackgroundResource(R.drawable.preview);
         cloth3dpreviewButton.setLayoutParams(params);
-
 
 
         textAddButton = new Button(this);
@@ -630,63 +621,63 @@ public class PreviewProduct extends Activity implements View.OnTouchListener  {
             @Override
             public void onClick(View v) {
                 //Creating the instance of PopupMenu
-            PopupMenu popup = new PopupMenu(PreviewProduct.this, clothStyleButton);
-            //Inflating the Popup using xml file
-            popup.getMenuInflater().inflate(R.menu.menu_cloth_style, popup.getMenu());
+                PopupMenu popup = new PopupMenu(PreviewProduct.this, clothStyleButton);
+                //Inflating the Popup using xml file
+                popup.getMenuInflater().inflate(R.menu.menu_cloth_style, popup.getMenu());
 
-            //registering popup with OnMenuItemClickListener
-            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                public boolean onMenuItemClick(MenuItem item) {
-                    Toast.makeText(PreviewProduct.this, "You Clicked : " + item.getTitle(), Toast.LENGTH_SHORT).show();
-                    switch (item.getItemId()) {
-                        case R.id.blackshirt:
+                //registering popup with OnMenuItemClickListener
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        Toast.makeText(PreviewProduct.this, "You Clicked : " + item.getTitle(), Toast.LENGTH_SHORT).show();
+                        switch (item.getItemId()) {
+                            case R.id.blackshirt:
 
-                            shirt.setImageResource(R.drawable.blackshirt);
-                            break;
-                        case R.id.whiteshirt:
+                                shirt.setImageResource(R.drawable.blackshirt);
+                                break;
+                            case R.id.whiteshirt:
 
-                            shirt.setImageResource(R.drawable.whiteshirt);
-                            break;
-                        case R.id.blackwshirtshirt:
+                                shirt.setImageResource(R.drawable.whiteshirt);
+                                break;
+                            case R.id.blackwshirtshirt:
 
-                            shirt.setImageResource(R.drawable.blackwhite);
-                            break;
-                        case R.id.redwhiteshirt:
+                                shirt.setImageResource(R.drawable.blackwhite);
+                                break;
+                            case R.id.redwhiteshirt:
 
-                            //shirt.setImageResource(R.drawable.redwhite);
-                            break;
-                        case R.id.greyshirt:
+                                //shirt.setImageResource(R.drawable.redwhite);
+                                break;
+                            case R.id.greyshirt:
 
-                            //shirt.setImageResource(R.drawable.greyshirt);
-                            break;
-                        case R.id.redshirt:
+                                //shirt.setImageResource(R.drawable.greyshirt);
+                                break;
+                            case R.id.redshirt:
 
-                          //  shirt.setImageResource(R.drawable.redshirt);
-                            break;
-                        case R.id.blueshirt:
+                                //  shirt.setImageResource(R.drawable.redshirt);
+                                break;
+                            case R.id.blueshirt:
 
-                            shirt.setImageResource(R.drawable.blueshirt);
-                            break;
-                        case R.id.greenshirt:
+                                shirt.setImageResource(R.drawable.blueshirt);
+                                break;
+                            case R.id.greenshirt:
 
-                           // shirt.setImageResource(R.drawable.greenshirt);
-                            break;
+                                // shirt.setImageResource(R.drawable.greenshirt);
+                                break;
 
+                        }
+                        return true;
                     }
-                    return true;
-                }
-            });
+                });
 
-            popup.show();//showing popup menu
+                popup.show();//showing popup menu
 
-        }
+            }
         });
 
         clothInfoBotton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Dialog dialog = new Dialog(context);
                 dialog.setContentView(R.layout.popupview);
-                TextView txt = (TextView)dialog.findViewById(R.id.textBox);
+                TextView txt = (TextView) dialog.findViewById(R.id.textBox);
                 txt.setText("T恤（或者T恤，英文：T-shirt或者Tee，带有展示性图案的也称文化衫）是衣衫的一种，通常是短袖而圆领的，长及腰间，一般没有钮扣、领子或袋。摊开时呈T形，因而得名。穿着时把头部穿过领子即成。T恤一般以棉或是人造纤维大规模制造，以平针编织出柔软的质地。");
                 dialog.show();
             }
@@ -705,15 +696,15 @@ public class PreviewProduct extends Activity implements View.OnTouchListener  {
         buttonLayout.addView(cloth3dpreviewButton);
     }
 
-    private void textButton(){
-        if((buttonLayout).getChildCount() > 0)
+    private void textButton() {
+        if ((buttonLayout).getChildCount() > 0)
             (buttonLayout).removeAllViews();
 
 
         final Typeface billstar = Typeface.createFromAsset(getAssets(), "BillionStars_PersonalUse.ttf");
         final Typeface wedgie = Typeface.createFromAsset(getAssets(), "WedgieRegular.ttf");
-        final Typeface zhongxingshu =  Typeface.createFromAsset(getAssets(), "ZhongXing.ttf");
-        final Typeface xiongmao =  Typeface.createFromAsset(getAssets(), "xiongmao.ttf");
+        final Typeface zhongxingshu = Typeface.createFromAsset(getAssets(), "ZhongXing.ttf");
+        final Typeface xiongmao = Typeface.createFromAsset(getAssets(), "xiongmao.ttf");
         final Typeface sans = textView.getTypeface();
 
 
@@ -771,7 +762,6 @@ public class PreviewProduct extends Activity implements View.OnTouchListener  {
         });
 
 
-
         textAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -793,7 +783,6 @@ public class PreviewProduct extends Activity implements View.OnTouchListener  {
     }
 
 
-
     public class simpleOnScaleGestureListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
 
         @Override
@@ -801,9 +790,9 @@ public class PreviewProduct extends Activity implements View.OnTouchListener  {
             float size = textView.getTextSize();
             float factor = detector.getScaleFactor();
             int increase = 0;
-            if(factor > 1.0f)
+            if (factor > 1.0f)
                 increase = 2;
-            else if(factor < 1.0f)
+            else if (factor < 1.0f)
                 increase = -2;
 
             size += increase;
@@ -819,7 +808,6 @@ public class PreviewProduct extends Activity implements View.OnTouchListener  {
             return true;
         }
     }
-
 
 
 }

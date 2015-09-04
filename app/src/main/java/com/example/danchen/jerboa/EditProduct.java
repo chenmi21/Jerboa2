@@ -42,15 +42,20 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_product);
         mRrootLayout = (ViewGroup) findViewById(R.id.imgLayout);
-        mImageView = (ImageView) mRrootLayout.findViewById(R.id.imgview);
-        mImageView2 = (ImageView) mRrootLayout.findViewById(R.id.imageView3);
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(imgSize, imgSize);
-        RelativeLayout.LayoutParams layoutParams2 = new RelativeLayout.LayoutParams(imgSize, imgSize);
-        mImageView.setLayoutParams(layoutParams);
-        mImageView.setOnTouchListener(this);
-        mImageView2.setLayoutParams(layoutParams2);
-        mImageView2.setOnTouchListener(this);
+       // addImageViewResources(R.drawable.logo);
+        //addImageViewResources(R.mipmap.ic_launcher);
+        ImageView imgView = new ImageView(EditProduct.this);
 
+        // RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(imgSize, imgSize);
+
+        mRrootLayout.addView(imgView);
+        //
+        // mImageView.setLayoutParams(layoutParams);
+        // imgView.setVisibility(View.VISIBLE);
+        //  mImageView.setOnTouchListener(this);
+
+        ImageViewList.add(imgView);
+        mImageView.setImageResource(R.drawable.logo);
     }
 
     public void addImageViewUrl(String src){
@@ -59,12 +64,29 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
         ImageViewList.add(imgView);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(imgSize, imgSize);
         layoutParamsList.add(layoutParams);
+        mRrootLayout.addView(imgView);
         mImageView.setLayoutParams(layoutParams);
         mImageView.setOnTouchListener(this);
         UrlImageViewHelper.setUrlDrawable(imgView, src);
         imgView.setVisibility(View.VISIBLE);
-        mRrootLayout.addView(imgView);
 
+    }
+
+    public void addImageViewResources(int src){
+
+        ImageView imgView = new ImageView(EditProduct.this);
+
+       // RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(imgSize, imgSize);
+
+        mRrootLayout.addView(imgView);
+       //
+       // mImageView.setLayoutParams(layoutParams);
+       // imgView.setVisibility(View.VISIBLE);
+       //  mImageView.setOnTouchListener(this);
+
+        ImageViewList.add(imgView);
+        mImageView.setImageResource(R.drawable.logo);
+        // layoutParamsList.add(layoutParams);
     }
 
     public boolean onTouch(View view, MotionEvent event) {

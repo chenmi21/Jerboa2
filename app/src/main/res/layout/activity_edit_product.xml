@@ -24,17 +24,7 @@
         android:layout_height="match_parent"
         android:id="@+id/imgLayout">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageView3"
-            android:src="@mipmap/ic_launcher" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imgview"
-            android:src="@drawable/logo" />
     </RelativeLayout>
 
 </RelativeLayout>
