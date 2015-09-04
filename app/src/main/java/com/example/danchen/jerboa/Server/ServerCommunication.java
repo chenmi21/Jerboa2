@@ -3,7 +3,7 @@ package com.example.danchen.jerboa.Server;
 import android.util.Log;
 
 import com.example.danchen.jerboa.MainActivity;
-import com.example.danchen.jerboa.Product;
+import com.example.danchen.jerboa.Model.Product;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;

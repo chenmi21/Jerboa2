@@ -12,9 +12,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.danchen.jerboa.Adapter.ProductAdapter;
+import com.example.danchen.jerboa.Listener.RecyclerItemClickListener;
+import com.example.danchen.jerboa.Model.Product;
 import com.example.danchen.jerboa.Server.ServerCommunication;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
@@ -23,6 +25,9 @@ import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity {
+    static final int SHIRT = 1;
+    static final int CAKE = 2;
+    static final int BOWL = 3;
     private RecyclerView mRecyclerView;
 
     private ProductAdapter myAdapter;
@@ -36,13 +41,13 @@ public class MainActivity extends ActionBarActivity {
     private ImageView mDragDownBar;
     final static int numOfRecipients = 6;
     final static int numOfOccasions = 6;
-    private int[] whoBtnResIDs ={R.id.btnMe,
+    private int[] whoBtnResIDs = {R.id.btnMe,
             R.id.btnChildren,
             R.id.btnParents,
             R.id.btnCouple,
             R.id.btnFriend,
             R.id.btnColleague};
-    private int[] whatBtnResIDs ={R.id.btnBday,
+    private int[] whatBtnResIDs = {R.id.btnBday,
             R.id.btnXmas,
             R.id.btnNY,
             R.id.btnCNY,
@@ -73,16 +78,14 @@ public class MainActivity extends ActionBarActivity {
                     @Override
                     public void onItemClick(View view, int position) {
                         // do whatever
-                        Toast.makeText(ProductAdapter.mContext, "The Item Clicked is: " + position + " " + view.getId(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ProductAdapter.mContext, "The Item Clicked is: " + products.get(position).name, Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent();
+                        //intent.setClass(MainActivity.this, EditProduct.class);
+                        String Targetclass = getClassPosition(position);
+                        intent.putExtra("product",products.get(position).getId());
+                        intent.setClassName(MainActivity.this, Targetclass);
+                        startActivity(intent);
 
-                        switch (position) {
-                            case 0:
-                                Intent intent = new Intent();
-                                intent.setClass(MainActivity.this, EditProduct.class);
-                                startActivity(intent);
-                                break;
-
-                        }
                     }
                 })
         );
@@ -122,7 +125,6 @@ public class MainActivity extends ActionBarActivity {
         initializeToolbar();
 
 
-
         mDragDownBar = (ImageView) findViewById(R.id.dragDownIcon);
         mDragDownBar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -156,24 +158,24 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    protected void initializeToolbar(){
+    protected void initializeToolbar() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(mToolbar);
     }
 
-    protected void initializeAllButtons(){
+    protected void initializeAllButtons() {
         mWhoBtns = new ArrayList<>();
         mWhatBtns = new ArrayList<>();
         mWhoOCL = new filterBtnOCL(mWhoBtns);
         mWhatOCL = new filterBtnOCL(mWhatBtns);
 
-        for(int i = 0; i < numOfRecipients; i++){
+        for (int i = 0; i < numOfRecipients; i++) {
             Button b = (Button) findViewById(whoBtnResIDs[i]);
             mWhoBtns.add(b);
             mWhoBtns.get(i).setOnClickListener(mWhoOCL);
         }
 
-        for(int i = 0; i < numOfOccasions; i++){
+        for (int i = 0; i < numOfOccasions; i++) {
             Button b = (Button) findViewById(whatBtnResIDs[i]);
             mWhatBtns.add(b);
             mWhatBtns.get(i).setOnClickListener(mWhatOCL);
@@ -191,23 +193,35 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
-    public void clickDragToExpandAndCollapse(){
-        if (mLayout != null)
-        {
-            if (mLayout.getPanelState() == SlidingUpPanelLayout.PanelState.COLLAPSED){
+    public void clickDragToExpandAndCollapse() {
+        if (mLayout != null) {
+            if (mLayout.getPanelState() == SlidingUpPanelLayout.PanelState.COLLAPSED) {
                 mLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
-            }
-            else if (mLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED){
+            } else if (mLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
                 mLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
             }
 
         }
     }
 
-    public void refreshCardView(String forWho, String forWhat){
+    public void refreshCardView(String forWho, String forWhat) {
         products.clear();
         ServerCommunication.getProductCardViewList(forWho, forWhat);
         myAdapter.notifyDataSetChanged();
     }
+
+    public String getClassPosition(int position) {
+        switch (products.get(position).id) {
+            case 1:
+                return EditProduct.class.getCanonicalName();
+            case 2:
+                return "EditCake";
+            case 3:
+                return "Editbbowl";
+            default:
+                return null;
+        }
+    }
+
 
 }
