@@ -10,8 +10,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.danchen.jerboa.Adapter.ProductAdapter;
@@ -38,7 +41,7 @@ public class MainActivity extends ActionBarActivity {
     private ArrayList<Button> mWhatBtns;
     private filterBtnOCL mWhoOCL;
     private filterBtnOCL mWhatOCL;
-    private ImageView mDragDownBar;
+    private LinearLayout mDragDownBar;
     final static int numOfRecipients = 6;
     final static int numOfOccasions = 6;
     private int[] whoBtnResIDs = {R.id.btnMe,
@@ -125,7 +128,7 @@ public class MainActivity extends ActionBarActivity {
         initializeToolbar();
 
 
-        mDragDownBar = (ImageView) findViewById(R.id.dragDownIcon);
+        mDragDownBar = (LinearLayout) findViewById(R.id.dragDownIcon);
         mDragDownBar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -134,6 +137,7 @@ public class MainActivity extends ActionBarActivity {
         });
 
         refreshCardView("全部", "全部");
+        mLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
     }
 
     @Override
@@ -200,7 +204,6 @@ public class MainActivity extends ActionBarActivity {
             } else if (mLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
                 mLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
             }
-
         }
     }
 

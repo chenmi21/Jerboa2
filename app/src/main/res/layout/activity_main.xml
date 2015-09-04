@@ -11,8 +11,8 @@
         android:layout_height="match_parent"
         android:gravity="top"
         android:layout_below="@+id/toolbar_main"
-        sothree:umanoPanelHeight="@dimen/drag_bar_height"
-        sothree:umanoShadowHeight="4dp"
+        sothree:umanoPanelHeight="@dimen/drag_bar_total_height"
+        sothree:umanoShadowHeight="0dp"
         sothree:umanoParalaxOffset="100dp"
         sothree:umanoDragView="@+id/dragView"
         sothree:umanoOverlay="true"
@@ -36,7 +36,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/sliding_panel_and_drag_bar_height"
-            android:background="#ffffff"
+            android:background="@android:color/transparent"
             android:orientation="vertical"
             android:clickable="true"
             android:focusable="false"
@@ -46,6 +46,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/sliding_panel_height"
+                android:background="#ffffff"
                 android:orientation="horizontal">
                 <LinearLayout android:layout_width="0dp"
                     android:layout_weight="1"
@@ -177,20 +178,23 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/drag_bar_height"
-                android:orientation="horizontal"
-                android:layout_gravity="bottom"
-                android:gravity="center"
-                android:background="@drawable/actionbar_background">
+                android:layout_height="@dimen/drag_bar_total_height"
+                android:orientation="vertical"
+                android:id="@+id/dragDownIcon">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/drag_bar_height"
                     android:layout_gravity="center"
-                    android:id="@+id/dragDownIcon"
                     android:src="@drawable/dragdown_icon"
                     android:clickable="true"
-                    android:scaleType="fitCenter" />
+                    android:scaleType="fitCenter"
+                    android:background="@drawable/actionbar_background"/>
+
+                <View android:layout_width="match_parent"
+                    android:layout_height="@dimen/drag_bar_height"
+                    android:background="@android:color/transparent"/>
+
 
             </LinearLayout>
 
