@@ -35,5 +35,6 @@ public class Product
     public String getPicName(){
         return this.picName;
     }
+    public int getId() { return this.id; }
 
 }
