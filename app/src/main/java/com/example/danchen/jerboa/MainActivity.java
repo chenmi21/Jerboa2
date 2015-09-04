@@ -73,7 +73,6 @@ public class MainActivity extends ActionBarActivity {
                     @Override
                     public void onItemClick(View view, int position) {
                         // do whatever
-
                         Toast.makeText(ProductAdapter.mContext, "The Item Clicked is: " + position + " " + view.getId(), Toast.LENGTH_SHORT).show();
 
                         switch (position) {

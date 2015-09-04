@@ -8,8 +8,8 @@ import android.content.Context;
 public class Product
 {
     String name;
-
     String picName;
+    int id;
 
     public Product(String name, String picName)
     {
