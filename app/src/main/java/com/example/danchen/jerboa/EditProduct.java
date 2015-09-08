@@ -24,7 +24,8 @@ import java.util.List;
 
 public class EditProduct extends AppCompatActivity  implements View.OnTouchListener{
     ViewGroup mRrootLayout;
-    ImageView garbage,recycle,shirt;
+    public ImageView garbage,recycle;
+    public ImageView shirtview;
     private Rect rect,rectView;
     private Toolbar mToolbar;
     int _xDelta;
@@ -50,7 +51,7 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
         setContentView(R.layout.activity_edit_product);
         garbage = (ImageView)findViewById(R.id.garbagebin);
         recycle = (ImageView)findViewById(R.id.recycle);
-        shirt = (ImageView)findViewById(R.id.shirt);
+        shirtview = (ImageView)findViewById(R.id.tshirt);
         garbage.setVisibility(View.INVISIBLE);
         mRrootLayout = (ViewGroup) findViewById(R.id.imgLayout);
         initializeToolbar();
@@ -64,7 +65,7 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
             @Override
             public void onClick(View v) {
                if (position_status == FRONT){
-                    shirt.setImageResource(R.drawable.tshirtback);
+                    shirtview.setImageResource(R.drawable.tshirtback);
                    for (ImageView element :  ImageViewList) {
                        element.setVisibility(View.INVISIBLE);
                    }
@@ -74,10 +75,10 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
                    position_status = BACK;
 
                    //test
-                   addImageViewResources(R.drawable.trash);
+                   addImageViewResources(R.mipmap.ic_launcher);
                }
                 else  if (position_status == BACK){
-                   shirt.setImageResource(R.drawable.whiteshirt);
+                   shirtview.setImageResource(R.drawable.whiteshirt);
                    for (ImageView element :  ImageViewListBack ) {
                        element.setVisibility(View.INVISIBLE);
                    }
