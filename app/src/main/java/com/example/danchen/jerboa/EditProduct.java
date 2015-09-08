@@ -1,7 +1,9 @@
 package com.example.danchen.jerboa;
 import android.graphics.PointF;
+import android.graphics.Rect;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.FloatMath;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,16 +24,21 @@ import java.util.List;
 
 public class EditProduct extends AppCompatActivity  implements View.OnTouchListener{
     ViewGroup mRrootLayout;
-    ImageView garbage;
-
+    ImageView garbage,recycle,shirt;
+    private Rect rect,rectView;
+    private Toolbar mToolbar;
     int _xDelta;
     int _yDelta;
     int imgSize = 250;
+    int position_status = 0;
     static final int NONE = 0;
     static final int DRAG = 1;
     static final int ZOOM = 2;
+    static final int FRONT = 0;
+    static final int BACK = 1;
     int mode = NONE;
     public List<ImageView> ImageViewList = new ArrayList<>();
+    public List<ImageView> ImageViewListBack = new ArrayList<>();
     public List<RelativeLayout.LayoutParams> layoutParamsList = new ArrayList<>();
     // these PointF objects are used to record the point(s) the user is touching
     PointF start = new PointF();
@@ -42,17 +49,63 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_product);
         garbage = (ImageView)findViewById(R.id.garbagebin);
+        recycle = (ImageView)findViewById(R.id.recycle);
+        shirt = (ImageView)findViewById(R.id.shirt);
         garbage.setVisibility(View.INVISIBLE);
         mRrootLayout = (ViewGroup) findViewById(R.id.imgLayout);
+        initializeToolbar();
+        //garbage bin
+        rect = new Rect();
+        garbage.getDrawingRect(rect);
 
+        // for image onclick 正反面
+        recycle.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+               if (position_status == FRONT){
+                    shirt.setImageResource(R.drawable.tshirtback);
+                   for (ImageView element :  ImageViewList) {
+                       element.setVisibility(View.INVISIBLE);
+                   }
+                   for (ImageView element :  ImageViewListBack ) {
+                       element.setVisibility(View.VISIBLE);
+                   }
+                   position_status = BACK;
+
+                   //test
+                   addImageViewResources(R.drawable.trash);
+               }
+                else  if (position_status == BACK){
+                   shirt.setImageResource(R.drawable.whiteshirt);
+                   for (ImageView element :  ImageViewListBack ) {
+                       element.setVisibility(View.INVISIBLE);
+                   }
+                   for (ImageView element :  ImageViewList) {
+                       element.setVisibility(View.VISIBLE);
+                   }
+
+                   position_status = FRONT;
+               }
+            }
+        });
+
+        // for testing
         addImageViewResources(R.drawable.logo);
         addImageViewResources(R.mipmap.ic_launcher);
+
+
+
+
     }
 
     public void addImageViewUrl(String src){
 
         ImageView imgView = new ImageView(this);
-        ImageViewList.add(imgView);
+        if (position_status == FRONT)
+            ImageViewList.add(imgView);
+        else
+            ImageViewListBack.add(imgView);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(imgSize, imgSize);
         layoutParamsList.add(layoutParams);
         mRrootLayout.addView(imgView);
@@ -73,8 +126,10 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
         imgView.setLayoutParams(layoutParams);
         imgView.setVisibility(View.VISIBLE);
         imgView.setOnTouchListener(this);
-
-        ImageViewList.add(imgView);
+        if (position_status == FRONT)
+            ImageViewList.add(imgView);
+        else
+            ImageViewListBack.add(imgView);
         imgView.setImageResource(src);
         layoutParamsList.add(layoutParams);
     }
@@ -98,7 +153,7 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
                 mode = NONE;
                 garbage.setVisibility(View.INVISIBLE);
                 view.setBackgroundResource(R.color.none);
-                if((int) event.getRawY() > 1340){
+                if(event.getRawY()>1530){
                     view.setVisibility(View.GONE);
                 }
                 break;
@@ -125,8 +180,9 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
                     layoutParams.rightMargin = -250;
                     layoutParams.bottomMargin = -250;
                     view.setLayoutParams(layoutParams);
-
-                    if((int) event.getRawY() > 1340)
+                    rectView = new Rect();
+                    view.getDrawingRect(rectView);
+                    if(event.getRawY()>1530)
                     {
                         view.setBackgroundResource(R.color.deletecolor);
                     }
@@ -210,6 +266,11 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    protected void initializeToolbar() {
+        mToolbar = (Toolbar) findViewById(R.id.toolbar_edit);
+        setSupportActionBar(mToolbar);
     }
 }
 
