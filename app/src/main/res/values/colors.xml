@@ -302,8 +302,11 @@
     <color name="black">#000000</color>
     <!-- 黑色 -->
     <color name="none">#00000000</color>
-    <color name="ColorPrimary">#FF5722</color>
-    <color name="ColorPrimaryDark">#E64A19</color>
+    <color name="ColorPrimary">#f64141</color>
+    <color name="ColorPrimaryDark">#DD3A3A</color>
+    <color name="ColorPrimaryLight">#FC8888</color>
+
+    <color name="darkGrey">#2C2C2C</color>
 
 
 </resources>

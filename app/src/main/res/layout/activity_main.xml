@@ -4,6 +4,7 @@
     tools:context=".MainActivity">
 
     <include layout="@layout/toolbar_main" android:id="@+id/toolbar_main"/>
+
     <com.sothree.slidinguppanel.SlidingUpPanelLayout
         xmlns:sothree="http://schemas.android.com/apk/res-auto"
         android:id="@+id/sliding_layout"
@@ -227,21 +228,24 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/drag_bar_total_height"
-                android:orientation="vertical"
-                android:id="@+id/dragDownIcon">
+                android:orientation="vertical">
 
-                <ImageView
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/drag_bar_height"
-                    android:layout_gravity="center"
-                    android:src="@drawable/dragdown_icon"
+                    android:gravity="center_horizontal"
                     android:clickable="true"
-                    android:scaleType="fitCenter"
-                    android:background="@drawable/actionbar_background"/>
+                    android:text="OK"
+                    android:textColor="@android:color/white"
+                    android:id="@+id/dragDownText"
+                    android:background="@color/darkGrey"
+                    android:onClick="clickDragToExpandAndCollapse"/>
 
                 <View android:layout_width="match_parent"
                     android:layout_height="@dimen/drag_bar_height"
-                    android:background="@android:color/transparent"/>
+                    android:background="@android:color/transparent"
+                    android:clickable="true"
+                    android:onClick="clickDragToExpandAndCollapse"/>
 
 
             </LinearLayout>

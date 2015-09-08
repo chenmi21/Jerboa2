@@ -1,6 +1,7 @@
 package com.example.danchen.jerboa;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -23,6 +24,8 @@ import com.example.danchen.jerboa.Model.ProductCardView;
 import com.example.danchen.jerboa.Server.ServerCommunication;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +44,7 @@ public class MainActivity extends ActionBarActivity {
     private ArrayList<Button> mWhatBtns;
     private filterBtnOCL mWhoOCL;
     private filterBtnOCL mWhatOCL;
-    private LinearLayout mDragDownBar;
+    private TextView mDragDownText;
     final static int numOfRecipients = 6;
     final static int numOfOccasions = 6;
     private int[] whoBtnResIDs = {R.id.btnMe,
@@ -64,6 +67,8 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mDragDownText = (TextView) findViewById(R.id.dragDownText);
+
         // 拿到RecyclerView
         mRecyclerView = (RecyclerView) findViewById(R.id.list);
         // 设置LinearLayoutManager
@@ -77,23 +82,23 @@ public class MainActivity extends ActionBarActivity {
         // 为mRecyclerView设置适配器
         mRecyclerView.setAdapter(myAdapter);
         mRecyclerView.addOnItemTouchListener(
-              new RecyclerItemClickListener(ProductAdapter.mContext, new RecyclerItemClickListener.OnItemClickListener() {
-                  @Override
-                 public void onItemClick(View view, int position) {
+                new RecyclerItemClickListener(ProductAdapter.mContext, new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
                         // do whatever
-                      if(position == -1)
-                          return;
-                       Toast.makeText(ProductAdapter.mContext, "The Item Clicked is: " + position, Toast.LENGTH_SHORT).show();
+                        if (position == -1)
+                            return;
+                        Toast.makeText(ProductAdapter.mContext, "The Item Clicked is: " + position, Toast.LENGTH_SHORT).show();
 
                         Intent intent = new Intent();
                         intent.setClass(MainActivity.this, EditProduct.class);
                         String Targetclass = getClassPosition(position);
                         intent.putExtra("product", productCardViews.get(position).getId());
                         intent.setClassName(MainActivity.this, Targetclass);
-                       startActivity(intent);
+                        startActivity(intent);
 
-                 }
-              })
+                    }
+                })
         );
 
 
@@ -106,11 +111,13 @@ public class MainActivity extends ActionBarActivity {
 
             @Override
             public void onPanelExpanded(View panel) {
-                Toast.makeText(MainActivity.this, "onPanelExpanded", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "onPanelExpanded", Toast.LENGTH_SHORT).show();
+                setDragDownTextAndColor();
             }
 
             @Override
             public void onPanelCollapsed(View panel) {
+                setDragDownTextAndColor();
                 String who = mWhoOCL.getLastPressedButtonString();
                 String what = mWhatOCL.getLastPressedButtonString();
                 refreshCardView(who, what);
@@ -129,15 +136,6 @@ public class MainActivity extends ActionBarActivity {
 
         initializeAllButtons();
         initializeToolbar();
-
-
-        mDragDownBar = (LinearLayout) findViewById(R.id.dragDownIcon);
-        mDragDownBar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickDragToExpandAndCollapse();
-            }
-        });
 
         refreshCardView("全部", "全部");
         mLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
@@ -200,12 +198,25 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
-    public void clickDragToExpandAndCollapse() {
+    public void clickDragToExpandAndCollapse(View v) {
         if (mLayout != null) {
-            if (mLayout.getPanelState() == SlidingUpPanelLayout.PanelState.COLLAPSED) {
-                mLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
-            } else if (mLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
+            if (mLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
                 mLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+            }
+            else {
+                mLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+            }
+        }
+    }
+
+    public void setDragDownTextAndColor(){
+        if (mDragDownText != null){
+            mDragDownText.setTextColor(Color.WHITE);
+            if (mLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
+                mDragDownText.setText("OK");
+            }
+            else {
+                mDragDownText.setText("Pull Down");
             }
         }
     }
