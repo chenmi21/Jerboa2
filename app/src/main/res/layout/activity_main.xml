@@ -50,6 +50,7 @@
                 android:orientation="horizontal">
                 <LinearLayout android:layout_width="0dp"
                     android:layout_weight="1"
+                    android:paddingLeft="5dp"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
                     <TextView android:layout_width="match_parent"
@@ -129,6 +130,7 @@
                 </LinearLayout>
 
                 <LinearLayout android:layout_width="0dp"
+                    android:paddingLeft="18dp"
                     android:layout_weight="1"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
@@ -138,19 +140,19 @@
                         android:paddingBottom="10dp"
                         android:paddingTop="10dp"
                         android:textSize="18sp"
-                        android:text="节日场合" />
+                        android:text="定制场景" />
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
-                        <Button android:layout_width="60dp"
+                        <Button android:layout_width="75dp"
                             android:layout_height="30dp"
                             android:layout_margin="2dp"
                             android:text="生日"
                             android:textColor="@drawable/text_color_selector"
                             android:background="@drawable/button_selector"
                             android:id="@+id/btnBday"/>
-                        <Button android:layout_width="60dp"
+                        <Button android:layout_width="75dp"
                             android:layout_height="30dp"
                             android:layout_margin="2dp"
                             android:text="圣诞"
@@ -163,14 +165,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
-                        <Button android:layout_width="60dp"
+                        <Button android:layout_width="75dp"
                             android:layout_height="30dp"
                             android:layout_margin="2dp"
                             android:text="新年"
                             android:textColor="@drawable/text_color_selector"
                             android:background="@drawable/button_selector"
                             android:id="@+id/btnNY"/>
-                        <Button android:layout_width="60dp"
+                        <Button android:layout_width="75dp"
                             android:layout_height="30dp"
                             android:layout_margin="2dp"
                             android:text="春节"
@@ -183,14 +185,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
-                        <Button android:layout_width="60dp"
+                        <Button android:layout_width="75dp"
                             android:layout_height="30dp"
                             android:layout_margin="2dp"
                             android:text="儿童节"
                             android:textColor="@drawable/text_color_selector"
                             android:background="@drawable/button_selector"
                             android:id="@+id/btnChildrenDay"/>
-                        <Button android:layout_width="60dp"
+                        <Button android:layout_width="75dp"
                             android:layout_height="30dp"
                             android:layout_margin="2dp"
                             android:text="母亲节"
