@@ -46,7 +46,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/sliding_panel_height"
-                android:background="#ffffff"
+                android:background="#f64141"
                 android:orientation="horizontal">
                 <LinearLayout android:layout_width="0dp"
                     android:layout_weight="1"
