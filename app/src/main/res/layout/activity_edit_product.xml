@@ -343,8 +343,8 @@
                     android:layout_weight="1"
                     android:textColor="@drawable/text_color_selector"
                     android:background="@drawable/button_selector"
-                    android:text="还原"
-                    android:id="@+id/typeButton"/>
+                    android:text="对齐"
+                    android:id="@+id/alignButton"/>
             </LinearLayout>
         </LinearLayout>
     </FrameLayout>

@@ -56,7 +56,7 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
 
     //Sliding Panel stuff
     private SlidingUpPanelLayout mLayout, mLayout2, mLayout3, mLayout4;
-    private Button mAttributeButton, mTemplateButton, mTextButton, mTypeButton;
+    private Button mAttributeButton, mTemplateButton, mTextButton, mAlignButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,9 +107,9 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
         addImageViewResources(R.drawable.logo);
         addImageViewResources(R.mipmap.ic_launcher);
 
-        //////////////////////////////
-        //Sliding Panel initialization
-        //////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////
+        //       Sliding Panel initialization
+        ////////////////////////////////////////////////////////////////////////////////////
 
         ListView lv = (ListView) findViewById(R.id.list);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -196,7 +196,7 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
             public void onPanelCollapsed(View panel) {
                 mLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
                 setAllBtmButtonsVisible();
-                setAllPanelsVisible();
+                setAllPanelsGone();
             }
 
             @Override
@@ -225,7 +225,7 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
             public void onPanelCollapsed(View panel) {
                 mLayout2.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
                 setAllBtmButtonsVisible();
-                setAllPanelsVisible();
+                setAllPanelsGone();
             }
 
             @Override
@@ -254,7 +254,7 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
             public void onPanelCollapsed(View panel) {
                 mLayout3.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
                 setAllBtmButtonsVisible();
-                setAllPanelsVisible();
+                setAllPanelsGone();
             }
 
             @Override
@@ -283,7 +283,7 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
             public void onPanelCollapsed(View panel) {
                 mLayout4.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
                 setAllBtmButtonsVisible();
-                setAllPanelsVisible();
+                setAllPanelsGone();
             }
 
             @Override
@@ -300,13 +300,14 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
         mAttributeButton = (Button) findViewById(R.id.attributeButton);
         mTemplateButton = (Button) findViewById(R.id.templateButton);
         mTextButton = (Button) findViewById(R.id.textButton);
-        mTypeButton = (Button) findViewById(R.id.typeButton);
+        mAlignButton = (Button) findViewById(R.id.alignButton);
         mAttributeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 setAllBtmButtonsGone();
                 if (mLayout != null) {
                     if (mLayout.getPanelState() != SlidingUpPanelLayout.PanelState.EXPANDED) {
+                        mLayout.setVisibility(View.VISIBLE);
                         mLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
                     }
                     mLayout2.setVisibility(View.GONE);
@@ -322,6 +323,7 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
                 if(mLayout2 != null){
                     setAllBtmButtonsGone();
                     if(mLayout2.getPanelState() != SlidingUpPanelLayout.PanelState.EXPANDED){
+                        mLayout2.setVisibility(View.VISIBLE);
                         mLayout2.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
                     }
                     mLayout.setVisibility(View.GONE);
@@ -336,6 +338,7 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
                 setAllBtmButtonsGone();
                 if(mLayout3 != null){
                     if(mLayout3.getPanelState() != SlidingUpPanelLayout.PanelState.EXPANDED){
+                        mLayout3.setVisibility(View.VISIBLE);
                         mLayout3.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
                     }
                     mLayout.setVisibility(View.GONE);
@@ -344,12 +347,13 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
                 }
             }
         });
-        mTypeButton.setOnClickListener(new View.OnClickListener() {
+        mAlignButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 setAllBtmButtonsGone();
                 if (mLayout4 != null) {
                     if (mLayout4.getPanelState() != SlidingUpPanelLayout.PanelState.EXPANDED) {
+                        mLayout4.setVisibility(View.VISIBLE);
                         mLayout4.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
                     }
                     mLayout.setVisibility(View.GONE);
@@ -359,6 +363,7 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
             }
         });
 
+        setAllPanelsGone();
     }
 
     public void addImageViewUrl(String src){
@@ -553,14 +558,14 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
         if(mAttributeButton != null) mAttributeButton.setVisibility(View.GONE);
         if(mTemplateButton != null) mTemplateButton.setVisibility(View.GONE);
         if(mTextButton != null) mTextButton.setVisibility(View.GONE);
-        if(mTypeButton != null) mTypeButton.setVisibility(View.GONE);
+        if(mAlignButton != null) mAlignButton.setVisibility(View.GONE);
     }
 
     public void setAllBtmButtonsVisible(){
         if(mAttributeButton != null) mAttributeButton.setVisibility(View.VISIBLE);
         if(mTemplateButton != null) mTemplateButton.setVisibility(View.VISIBLE);
         if(mTextButton != null) mTextButton.setVisibility(View.VISIBLE);
-        if(mTypeButton != null) mTypeButton.setVisibility(View.VISIBLE);
+        if(mAlignButton != null) mAlignButton.setVisibility(View.VISIBLE);
     }
 
     public void setAllPanelsVisible(){
@@ -568,6 +573,13 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
         if(mLayout2 != null) mLayout2.setVisibility(View.VISIBLE);
         if(mLayout3 != null) mLayout3.setVisibility(View.VISIBLE);
         if(mLayout4 != null) mLayout4.setVisibility(View.VISIBLE);
+    }
+
+    public void setAllPanelsGone(){
+        if(mLayout != null) mLayout.setVisibility(View.GONE);
+        if(mLayout2 != null) mLayout2.setVisibility(View.GONE);
+        if(mLayout3 != null) mLayout3.setVisibility(View.GONE);
+        if(mLayout4 != null) mLayout4.setVisibility(View.GONE);
     }
 }
 
