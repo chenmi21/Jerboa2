@@ -230,14 +230,13 @@
                 android:layout_height="@dimen/drag_bar_total_height"
                 android:orientation="vertical">
 
-                <TextView
+                <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/drag_bar_height"
                     android:gravity="center_horizontal"
                     android:clickable="true"
-                    android:text="OK"
-                    android:textColor="@android:color/white"
-                    android:id="@+id/dragDownText"
+                    android:id="@+id/dragDownImg"
+                    android:src="@drawable/white_okay"
                     android:background="@color/darkGrey"
                     android:onClick="clickDragToExpandAndCollapse"/>
 

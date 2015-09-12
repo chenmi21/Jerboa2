@@ -44,7 +44,7 @@ public class MainActivity extends ActionBarActivity {
     private ArrayList<Button> mWhatBtns;
     private filterBtnOCL mWhoOCL;
     private filterBtnOCL mWhatOCL;
-    private TextView mDragDownText;
+    private ImageView mDragDownImg;
     final static int numOfRecipients = 6;
     final static int numOfOccasions = 6;
     private int[] whoBtnResIDs = {R.id.btnMe,
@@ -67,7 +67,7 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mDragDownText = (TextView) findViewById(R.id.dragDownText);
+        mDragDownImg = (ImageView) findViewById(R.id.dragDownImg);
 
         // 拿到RecyclerView
         mRecyclerView = (RecyclerView) findViewById(R.id.list);
@@ -210,13 +210,12 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void setDragDownTextAndColor(){
-        if (mDragDownText != null){
-            mDragDownText.setTextColor(Color.WHITE);
+        if (mDragDownImg != null){
             if (mLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
-                mDragDownText.setText("OK");
+                mDragDownImg.setImageDrawable(getResources().getDrawable(R.drawable.white_okay));
             }
             else {
-                mDragDownText.setText("Pull Down");
+                mDragDownImg.setImageDrawable(getResources().getDrawable(R.drawable.white_arrow));
             }
         }
     }
