@@ -13,12 +13,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -46,6 +53,11 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
     PointF start = new PointF();
     PointF mid = new PointF();
     float oldDist = 1f;
+
+    //Sliding Panel stuff
+    private SlidingUpPanelLayout mLayout, mLayout2, mLayout3, mLayout4;
+    private Button mAttributeButton, mTemplateButton, mTextButton, mTypeButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,8 +107,257 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
         addImageViewResources(R.drawable.logo);
         addImageViewResources(R.mipmap.ic_launcher);
 
+        //////////////////////////////
+        //Sliding Panel initialization
+        //////////////////////////////
 
+        ListView lv = (ListView) findViewById(R.id.list);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(EditProduct.this, "onItemClick", Toast.LENGTH_SHORT).show();
+            }
+        });
+        ListView lv2 = (ListView) findViewById(R.id.list2);
+        lv2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(EditProduct.this, "onItemClick", Toast.LENGTH_SHORT).show();
+            }
+        });
+        ListView lv3 = (ListView) findViewById(R.id.list3);
+        lv3.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(EditProduct.this, "onItemClick", Toast.LENGTH_SHORT).show();
+            }
+        });
+        ListView lv4 = (ListView) findViewById(R.id.list4);
+        lv4.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(EditProduct.this, "onItemClick", Toast.LENGTH_SHORT).show();
+            }
+        });
 
+        List<String> your_array_list = Arrays.asList(
+                "This",
+                "Is",
+                "An",
+                "Example",
+                "ListView",
+                "That",
+                "You",
+                "Can",
+                "Scroll",
+                ".",
+                "It",
+                "Shows",
+                "How",
+                "Any",
+                "Scrollable",
+                "View",
+                "Can",
+                "Be",
+                "Included",
+                "As",
+                "A",
+                "Child",
+                "Of",
+                "SlidingUpPanelLayout"
+        );
+
+        // This is the array adapter, it takes the context of the activity as a
+        // first parameter, the type of list view as a second parameter and your
+        // array as a third parameter.
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+                this,
+                android.R.layout.simple_list_item_1,
+                your_array_list );
+
+        lv.setAdapter(arrayAdapter);
+        lv2.setAdapter(arrayAdapter);
+        lv3.setAdapter(arrayAdapter);
+        lv4.setAdapter(arrayAdapter);
+
+        mLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
+        mLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+            @Override
+            public void onPanelSlide(View panel, float slideOffset) {
+
+            }
+
+            @Override
+            public void onPanelExpanded(View panel) {
+
+            }
+
+            @Override
+            public void onPanelCollapsed(View panel) {
+                mLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+                setAllBtmButtonsVisible();
+                setAllPanelsVisible();
+            }
+
+            @Override
+            public void onPanelAnchored(View panel) {
+
+            }
+
+            @Override
+            public void onPanelHidden(View panel) {
+
+            }
+        });
+        mLayout2 = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout2);
+        mLayout2.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+            @Override
+            public void onPanelSlide(View panel, float slideOffset) {
+
+            }
+
+            @Override
+            public void onPanelExpanded(View panel) {
+
+            }
+
+            @Override
+            public void onPanelCollapsed(View panel) {
+                mLayout2.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+                setAllBtmButtonsVisible();
+                setAllPanelsVisible();
+            }
+
+            @Override
+            public void onPanelAnchored(View panel) {
+
+            }
+
+            @Override
+            public void onPanelHidden(View panel) {
+
+            }
+        });
+        mLayout3 = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout3);
+        mLayout3.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+            @Override
+            public void onPanelSlide(View panel, float slideOffset) {
+
+            }
+
+            @Override
+            public void onPanelExpanded(View panel) {
+
+            }
+
+            @Override
+            public void onPanelCollapsed(View panel) {
+                mLayout3.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+                setAllBtmButtonsVisible();
+                setAllPanelsVisible();
+            }
+
+            @Override
+            public void onPanelAnchored(View panel) {
+
+            }
+
+            @Override
+            public void onPanelHidden(View panel) {
+
+            }
+        });
+        mLayout4 = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout4);
+        mLayout4.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+            @Override
+            public void onPanelSlide(View panel, float slideOffset) {
+
+            }
+
+            @Override
+            public void onPanelExpanded(View panel) {
+
+            }
+
+            @Override
+            public void onPanelCollapsed(View panel) {
+                mLayout4.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+                setAllBtmButtonsVisible();
+                setAllPanelsVisible();
+            }
+
+            @Override
+            public void onPanelAnchored(View panel) {
+
+            }
+
+            @Override
+            public void onPanelHidden(View panel) {
+
+            }
+        });
+
+        mAttributeButton = (Button) findViewById(R.id.attributeButton);
+        mTemplateButton = (Button) findViewById(R.id.templateButton);
+        mTextButton = (Button) findViewById(R.id.textButton);
+        mTypeButton = (Button) findViewById(R.id.typeButton);
+        mAttributeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setAllBtmButtonsGone();
+                if (mLayout != null) {
+                    if (mLayout.getPanelState() != SlidingUpPanelLayout.PanelState.EXPANDED) {
+                        mLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+                    }
+                    mLayout2.setVisibility(View.GONE);
+                    mLayout3.setVisibility(View.GONE);
+                    mLayout4.setVisibility(View.GONE);
+                }
+            }
+        });
+        mTemplateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setAllBtmButtonsGone();
+                if(mLayout2 != null){
+                    setAllBtmButtonsGone();
+                    if(mLayout2.getPanelState() != SlidingUpPanelLayout.PanelState.EXPANDED){
+                        mLayout2.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+                    }
+                    mLayout.setVisibility(View.GONE);
+                    mLayout3.setVisibility(View.GONE);
+                    mLayout4.setVisibility(View.GONE);
+                }
+            }
+        });
+        mTextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setAllBtmButtonsGone();
+                if(mLayout3 != null){
+                    if(mLayout3.getPanelState() != SlidingUpPanelLayout.PanelState.EXPANDED){
+                        mLayout3.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+                    }
+                    mLayout.setVisibility(View.GONE);
+                    mLayout2.setVisibility(View.GONE);
+                    mLayout4.setVisibility(View.GONE);
+                }
+            }
+        });
+        mTypeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setAllBtmButtonsGone();
+                if (mLayout4 != null) {
+                    if (mLayout4.getPanelState() != SlidingUpPanelLayout.PanelState.EXPANDED) {
+                        mLayout4.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+                    }
+                    mLayout.setVisibility(View.GONE);
+                    mLayout2.setVisibility(View.GONE);
+                    mLayout3.setVisibility(View.GONE);
+                }
+            }
+        });
 
     }
 
@@ -286,6 +547,27 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
     protected void initializeToolbar() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar_edit);
         setSupportActionBar(mToolbar);
+    }
+
+    public void setAllBtmButtonsGone(){
+        if(mAttributeButton != null) mAttributeButton.setVisibility(View.GONE);
+        if(mTemplateButton != null) mTemplateButton.setVisibility(View.GONE);
+        if(mTextButton != null) mTextButton.setVisibility(View.GONE);
+        if(mTypeButton != null) mTypeButton.setVisibility(View.GONE);
+    }
+
+    public void setAllBtmButtonsVisible(){
+        if(mAttributeButton != null) mAttributeButton.setVisibility(View.VISIBLE);
+        if(mTemplateButton != null) mTemplateButton.setVisibility(View.VISIBLE);
+        if(mTextButton != null) mTextButton.setVisibility(View.VISIBLE);
+        if(mTypeButton != null) mTypeButton.setVisibility(View.VISIBLE);
+    }
+
+    public void setAllPanelsVisible(){
+        if(mLayout != null) mLayout.setVisibility(View.VISIBLE);
+        if(mLayout2 != null) mLayout2.setVisibility(View.VISIBLE);
+        if(mLayout3 != null) mLayout3.setVisibility(View.VISIBLE);
+        if(mLayout4 != null) mLayout4.setVisibility(View.VISIBLE);
     }
 }
 
