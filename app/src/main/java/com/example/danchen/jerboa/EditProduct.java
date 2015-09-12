@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -64,30 +65,29 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
 
             @Override
             public void onClick(View v) {
-               if (position_status == FRONT){
+                if (position_status == FRONT) {
                     shirtview.setImageResource(R.drawable.tshirtback);
-                   for (ImageView element :  ImageViewList) {
-                       element.setVisibility(View.INVISIBLE);
-                   }
-                   for (ImageView element :  ImageViewListBack ) {
-                       element.setVisibility(View.VISIBLE);
-                   }
-                   position_status = BACK;
+                    for (ImageView element : ImageViewList) {
+                        element.setVisibility(View.INVISIBLE);
+                    }
+                    for (ImageView element : ImageViewListBack) {
+                        element.setVisibility(View.VISIBLE);
+                    }
+                    position_status = BACK;
 
-                   //test
-                   addImageViewResources(R.mipmap.ic_launcher);
-               }
-                else  if (position_status == BACK){
-                   shirtview.setImageResource(R.drawable.whiteshirt);
-                   for (ImageView element :  ImageViewListBack ) {
-                       element.setVisibility(View.INVISIBLE);
-                   }
-                   for (ImageView element :  ImageViewList) {
-                       element.setVisibility(View.VISIBLE);
-                   }
+                    //test
+                    addImageViewResources(R.mipmap.ic_launcher);
+                } else if (position_status == BACK) {
+                    shirtview.setImageResource(R.drawable.whiteshirt);
+                    for (ImageView element : ImageViewListBack) {
+                        element.setVisibility(View.INVISIBLE);
+                    }
+                    for (ImageView element : ImageViewList) {
+                        element.setVisibility(View.VISIBLE);
+                    }
 
-                   position_status = FRONT;
-               }
+                    position_status = FRONT;
+                }
             }
         });
 
@@ -151,11 +151,25 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
                 mode = DRAG;
                 break;
             case MotionEvent.ACTION_UP:
+                Iterator<ImageView> iterator;
                 mode = NONE;
                 garbage.setVisibility(View.INVISIBLE);
                 view.setBackgroundResource(R.color.none);
                 if(event.getRawY()>1530){
+                    if (position_status == FRONT) {
+                        iterator = ImageViewList.iterator();
+                    }
+                    else {
+                        iterator = ImageViewListBack.iterator();
+                    }
                     view.setVisibility(View.GONE);
+
+                    while(iterator.hasNext()){
+                        View i = iterator.next();
+                        if(i == view){
+                            iterator.remove();  
+                        }
+                    }
                 }
                 break;
             case MotionEvent.ACTION_POINTER_DOWN:

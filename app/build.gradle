@@ -51,3 +51,8 @@ dependencies {
     }
     compile 'com.sothree.slidinguppanel:library:3.1.1'
 }
+
+
+dependencies {
+    compile 'info.hoang8f:android-segmented:1.0.5'
+}
