@@ -60,6 +60,7 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
     Button addBtn,minusBtn;
     TextView productNum;
     int productCount = 1;
+    //FOR Tiffany: this variable has all attribute need for the T shirt, plz send to the server
     ProductTshirt myProduct;
 
 
