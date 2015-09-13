@@ -78,5 +78,6 @@
     <string name="title_activity_edit_address">EditAddress</string>
     <string name="title_activity_splash">SplashActivity</string>
     <string name="title_activity_edit_product">EditProduct</string>
+    <string name="title_activity_edit_finish">EditFinish</string>
 
 </resources>
