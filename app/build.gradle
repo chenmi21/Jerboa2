@@ -56,3 +56,7 @@ dependencies {
 dependencies {
     compile 'info.hoang8f:android-segmented:1.0.5'
 }
+
+dependencies {
+    compile 'com.github.jivimberg:autoresizetextview:0.0.2'
+}

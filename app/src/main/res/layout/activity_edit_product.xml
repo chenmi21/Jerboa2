@@ -463,7 +463,8 @@
                     android:textColor="@drawable/text_color_selector"
                     android:background="@drawable/button_selector"
                     android:text="文字"
-                    android:id="@+id/textButton"/>
+                    android:id="@+id/textButton"
+                    android:onClick="onTextButtonClicked" />
                 <Button
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

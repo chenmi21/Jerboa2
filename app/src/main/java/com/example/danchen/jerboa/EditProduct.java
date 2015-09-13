@@ -1,4 +1,6 @@
 package com.example.danchen.jerboa;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -39,6 +42,8 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
     int _xDelta;
     int _yDelta;
     int imgSize = 250;
+    int OriImgSize = 250;
+    float textSize = 25;
     int position_status = 0;
     static final int NONE = 0;
     static final int DRAG = 1;
@@ -49,8 +54,10 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
     static final int SHIRT = 1;
     static final int CAKE = 2;
     static final int BOWL = 3;
-    public List<ImageView> ImageViewList = new ArrayList<>();
-    public List<ImageView> ImageViewListBack = new ArrayList<>();
+    //User's photo and text
+    public List<View> ViewList = new ArrayList<>();
+    public List<View> ViewListBack = new ArrayList<>();
+
     public List<RelativeLayout.LayoutParams> layoutParamsList = new ArrayList<>();
     // these PointF objects are used to record the point(s) the user is touching
     PointF start = new PointF();
@@ -94,10 +101,10 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
             public void onClick(View v) {
                 if (position_status == FRONT) {
                     shirtview.setImageResource(R.drawable.tshirtback);
-                    for (ImageView element : ImageViewList) {
+                    for (View element : ViewList) {
                         element.setVisibility(View.INVISIBLE);
                     }
-                    for (ImageView element : ImageViewListBack) {
+                    for (View element : ViewListBack) {
                         element.setVisibility(View.VISIBLE);
                     }
                     position_status = BACK;
@@ -106,10 +113,10 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
                     addImageViewResources(R.mipmap.ic_launcher);
                 } else if (position_status == BACK) {
                     shirtview.setImageResource(R.drawable.whiteshirt);
-                    for (ImageView element : ImageViewListBack) {
+                    for (View element : ViewListBack) {
                         element.setVisibility(View.INVISIBLE);
                     }
-                    for (ImageView element : ImageViewList) {
+                    for (View element : ViewList) {
                         element.setVisibility(View.VISIBLE);
                     }
 
@@ -340,7 +347,8 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
                 }
             }
         });
-        mTextButton.setOnClickListener(new View.OnClickListener() {
+        // text 无需上滑菜单
+       /* mTextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 setAllBtmButtonsGone();
@@ -354,7 +362,7 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
                     mLayout4.setVisibility(View.GONE);
                 }
             }
-        });
+        });*/
         mAlignButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -378,10 +386,10 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
 
         ImageView imgView = new ImageView(this);
         if (position_status == FRONT)
-            ImageViewList.add(imgView);
+            ViewList.add(imgView);
         else
-            ImageViewListBack.add(imgView);
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(imgSize, imgSize);
+            ViewListBack.add(imgView);
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(OriImgSize, OriImgSize);
         layoutParamsList.add(layoutParams);
         mRrootLayout.addView(imgView);
         imgView.setLayoutParams(layoutParams);
@@ -394,7 +402,7 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
     public void addImageViewResources(int src){
         ImageView imgView = new ImageView(EditProduct.this);
 
-       RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(imgSize, imgSize);
+       RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(OriImgSize, OriImgSize);
 
         mRrootLayout.addView(imgView);
 
@@ -402,12 +410,34 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
         imgView.setVisibility(View.VISIBLE);
         imgView.setOnTouchListener(this);
         if (position_status == FRONT)
-            ImageViewList.add(imgView);
+            ViewList.add(imgView);
         else
-            ImageViewListBack.add(imgView);
+            ViewListBack.add(imgView);
         imgView.setImageResource(src);
         layoutParamsList.add(layoutParams);
     }
+
+
+    public void addTextViewResources(String src){
+        TextView textView = new TextView(EditProduct.this);
+
+        //RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(OriImgSize, OriImgSize);
+
+        mRrootLayout.addView(textView);
+
+        //textView.setLayoutParams(layoutParams);
+        textView.setVisibility(View.VISIBLE);
+        textView.setOnTouchListener(this);
+        if (position_status == FRONT)
+            ViewList.add(textView);
+        else
+            ViewListBack.add(textView);
+        textView.setText(src);
+        textView.setTextSize(25);
+        //layoutParamsList.add(layoutParams);
+    }
+
+
 
     public boolean onTouch(View view, MotionEvent event) {
         float scale;
@@ -425,16 +455,16 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
                 mode = DRAG;
                 break;
             case MotionEvent.ACTION_UP:
-                Iterator<ImageView> iterator;
+                Iterator<View> iterator;
                 mode = NONE;
                 garbage.setVisibility(View.INVISIBLE);
                 view.setBackgroundResource(R.color.none);
                 if(event.getRawY()>1530){
                     if (position_status == FRONT) {
-                        iterator = ImageViewList.iterator();
+                        iterator = ViewList.iterator();
                     }
                     else {
-                        iterator = ImageViewListBack.iterator();
+                        iterator = ViewListBack.iterator();
                     }
                     view.setVisibility(View.GONE);
 
@@ -485,25 +515,26 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
                     float newDist = spacing(event);
                     if (newDist > 8f)
                     {
+                        // setting the scaling of the
+                        scale = newDist / oldDist;
 
-                        scale = newDist / oldDist; // setting the scaling of the
-                        // matrix...if scale > 1 means
-                        // zoom in...if scale < 1 means
-                        // zoom out
-                       // if (scale > 1) {
-                          //  scale = 1.015f;
-                        //} else if (scale < 1) {
-                          //  scale = 0.990f;
-                       // }
-                        imgSize = (int)(imgSize * scale);
-                        layoutParams.width = imgSize;
-                        layoutParams.height = imgSize;
-                        layoutParams.leftMargin = (int)mid.x - _xDelta;
-                        layoutParams.topMargin = (int)mid.y  - _yDelta;
-                        layoutParams.rightMargin = -250;
-                        layoutParams.bottomMargin = -250;
-                        view.setLayoutParams(layoutParams);
+                        if (view instanceof ImageView) {
+                            imgSize = (int) (imgSize * scale);
+                            layoutParams.width = imgSize;
+                            layoutParams.height = imgSize;
+                            layoutParams.leftMargin = (int) mid.x - _xDelta;
+                            layoutParams.topMargin = (int) mid.y - _yDelta;
+                            layoutParams.rightMargin = -250;
+                            layoutParams.bottomMargin = -250;
+                            view.setLayoutParams(layoutParams);
+
+                        }
+                        else if (view instanceof TextView){
+                            textSize = textSize * scale;
+                            ((TextView) view).setTextSize(textSize);
+                        }
                         oldDist = newDist;
+
                     }
                 }
                 break;
@@ -650,6 +681,35 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
         productCount--;
         productNum.setText(productCount+"");
         myProduct.setQuantity(productCount);
+    }
+
+
+    public void onTextButtonClicked(View v) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+        alert.setTitle("请输入文字");
+        alert.setMessage("   ");
+
+// Set an EditText view to get user input
+        final EditText input = new EditText(this);
+        alert.setView(input);
+
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+
+                // Do something with value!
+                addTextViewResources(input.getText().toString());
+
+            }
+        });
+
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // Canceled.
+            }
+        });
+
+        alert.show();
     }
 }
 
