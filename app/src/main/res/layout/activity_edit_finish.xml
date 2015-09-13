@@ -1,0 +1,44 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.danchen.jerboa.EditFinish">
+
+    <include layout="@layout/toolbar_main" android:id="@+id/toolbar_edit_finish"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_margin="30dp"
+        android:layout_height="220dp"
+        android:background="@color/black"
+        android:id="@+id/preview_image" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/button_selector"
+        android:text="保存"
+        android:id="@+id/save"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/button_selector"
+        android:text="分享"
+        android:id="@+id/share"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/button_selector"
+        android:text="购买"
+        android:id="@+id/submit"
+        />
+
+
+</LinearLayout>
