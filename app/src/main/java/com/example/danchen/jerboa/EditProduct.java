@@ -519,9 +519,12 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
                         scale = newDist / oldDist;
 
                         if (view instanceof ImageView) {
-                            imgSize = (int) (imgSize * scale);
-                            layoutParams.width = imgSize;
-                            layoutParams.height = imgSize;
+                            int imgSizeH = view.getHeight();
+                            int imgSizeW = view.getWidth();
+                            imgSizeH = (int) (imgSizeH * scale);
+                            imgSizeW = (int) (imgSizeW * scale);
+                            layoutParams.width = imgSizeW;
+                            layoutParams.height = imgSizeH;
                             layoutParams.leftMargin = (int) mid.x - _xDelta;
                             layoutParams.topMargin = (int) mid.y - _yDelta;
                             layoutParams.rightMargin = -250;
@@ -530,6 +533,7 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
 
                         }
                         else if (view instanceof TextView){
+                            //textSize = ((TextView) view).getTextSize();
                             textSize = textSize * scale;
                             ((TextView) view).setTextSize(textSize);
                         }
