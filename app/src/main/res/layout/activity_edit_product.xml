@@ -50,7 +50,7 @@
             sothree:umanoShadowHeight="4dp"
             sothree:umanoParalaxOffset="0dp"
             sothree:umanoDragView="@+id/dragView"
-            sothree:umanoOverlay="true"
+            sothree:umanoOverlay="false"
             sothree:umanoScrollableView="@+id/list">
 
             <FrameLayout
@@ -67,7 +67,7 @@
             <!-- SLIDING LAYOUT -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
                 android:orientation="vertical"
                 android:clickable="true"
@@ -79,7 +79,7 @@
                         xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
                         android:orientation="vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:weightSum="1">
 
                         <TextView

@@ -12,6 +12,7 @@ public class Product {
     private int numOfImages;
     private List<String> imagesUrlList;
 
+
     public Product(int id, String name, int count, List<String> list) {
         productId = id;
         productName = name;

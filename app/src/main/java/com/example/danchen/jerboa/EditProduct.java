@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.danchen.jerboa.Model.ProductTshirt;
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
@@ -45,6 +46,9 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
     static final int FRONT = 0;
     static final int BACK = 1;
     int mode = NONE;
+    static final int SHIRT = 1;
+    static final int CAKE = 2;
+    static final int BOWL = 3;
     public List<ImageView> ImageViewList = new ArrayList<>();
     public List<ImageView> ImageViewListBack = new ArrayList<>();
     public List<RelativeLayout.LayoutParams> layoutParamsList = new ArrayList<>();
@@ -56,6 +60,7 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
     Button addBtn,minusBtn;
     TextView productNum;
     int productCount = 1;
+    ProductTshirt myProduct;
 
 
     //Sliding Panel stuff
@@ -66,6 +71,8 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_product);
+        //initialize Product
+        myProduct = new ProductTshirt(SHIRT,"T恤衫");
         garbage = (ImageView)findViewById(R.id.garbagebin);
         recycle = (ImageView)findViewById(R.id.recycle);
         shirtview = (ImageView)findViewById(R.id.tshirt);
@@ -559,6 +566,7 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
         if(mTemplateButton != null) mTemplateButton.setVisibility(View.GONE);
         if(mTextButton != null) mTextButton.setVisibility(View.GONE);
         if(mAlignButton != null) mAlignButton.setVisibility(View.GONE);
+        if(recycle != null) recycle.setVisibility(View.GONE);
     }
 
     public void setAllBtmButtonsVisible(){
@@ -566,6 +574,8 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
         if(mTemplateButton != null) mTemplateButton.setVisibility(View.VISIBLE);
         if(mTextButton != null) mTextButton.setVisibility(View.VISIBLE);
         if(mAlignButton != null) mAlignButton.setVisibility(View.VISIBLE);
+        if(recycle != null) recycle.setVisibility(View.VISIBLE);
+
     }
 
     public void setAllPanelsVisible(){
@@ -591,35 +601,35 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
         switch(view.getId()) {
             case R.id.sizes:
                 if (checked)
-
+                    myProduct.setSize("S");
                     break;
             case R.id.sizem:
                 if (checked)
-
+                    myProduct.setSize("M");
                     break;
             case R.id.sizel:
                 if (checked)
-
+                    myProduct.setSize("L");
                     break;
             case R.id.sizexl:
                 if (checked)
-
+                    myProduct.setSize("XL");
                     break;
             case R.id.sizexxl:
                 if (checked)
-
+                    myProduct.setSize("XXL");
                     break;
             case R.id.cotton:
                 if (checked)
-
+                    myProduct.setMaterial("纯棉");
                     break;
             case R.id.fiber:
                 if (checked)
-
+                    myProduct.setMaterial("化纤");
                     break;
             case R.id.acrylicfibres:
                 if (checked)
-
+                    myProduct.setMaterial("晴纶");
                     break;
 
 
@@ -630,6 +640,7 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
     public void onAddButtonClicked(View view) {
         productCount++;
         productNum.setText(productCount+"");
+        myProduct.setQuantity(productCount);
     }
 
     public void onMinusButtonClicked(View view) {
@@ -637,6 +648,7 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
             return;
         productCount--;
         productNum.setText(productCount+"");
+        myProduct.setQuantity(productCount);
     }
 }
 
