@@ -75,37 +75,164 @@
                 android:gravity="top"
                 android:id="@+id/dragView">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="68dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/name"
-                        android:layout_width="0dp"
+                    <LinearLayout
+                        xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:textSize="14sp"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="10dp"/>
+                        android:weightSum="1">
 
-                    <Button
-                        android:id="@+id/follow"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:textSize="14sp"
-                        android:gravity="center_vertical|right"
-                        android:paddingRight="10dp"
-                        android:paddingLeft="10dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="尺码"
+                            android:id="@+id/textView"
+                            style="@style/AppTheme" />
+
+                        <info.hoang8f.android.segmented.SegmentedGroup
+                            xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
+                            android:id="@+id/size"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:elevation="5dp"
+                            android:orientation="horizontal"
+                            segmentedgroup:sc_border_width="2dp"
+                            segmentedgroup:sc_corner_radius="40dp"
+                            android:onClick="onRadioButtonClicked">
+
+                            <RadioButton
+                                android:id="@+id/sizes"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="S"
+                                android:layout_weight="1"
+                                style="@style/RadioButton"
+                                android:checked="false" />
+
+                            <RadioButton
+                                android:id="@+id/sizem"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="M"
+                                android:layout_weight="1"
+                                style="@style/RadioButton" />
+                            <RadioButton
+                                android:id="@+id/sizel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="L"
+                                android:layout_weight="1"
+                                style="@style/RadioButton" />
+                            <RadioButton
+                                android:id="@+id/sizexl"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="XL"
+                                android:layout_weight="1"
+                                style="@style/RadioButton" />
+                            <RadioButton
+                                android:id="@+id/sizexxl"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="XXL"
+                                android:layout_weight="1"
+                                style="@style/RadioButton" />
+                        </info.hoang8f.android.segmented.SegmentedGroup>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="面料"
+                            android:id="@+id/textView2" />
+
+                        <info.hoang8f.android.segmented.SegmentedGroup
+                            xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
+                            android:id="@+id/material"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:orientation="horizontal"
+                            segmentedgroup:sc_border_width="2dp"
+                            android:elevation="5dp"
+                            segmentedgroup:sc_corner_radius="40dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:onClick="onRadioButtonClicked">
+
+                            <RadioButton
+                                android:id="@+id/cotton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="纯棉"
+                                android:layout_weight="1"
+                                style="@style/RadioButton"
+                                android:checked="false" />
+
+                            <RadioButton
+                                android:id="@+id/fiber"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="化纤"
+                                android:layout_weight="1"
+                                style="@style/RadioButton" />
+                            <RadioButton
+                                android:id="@+id/acrylicfibres"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="晴纶"
+                                android:layout_weight="1"
+                                style="@style/RadioButton" />
+
+                        </info.hoang8f.android.segmented.SegmentedGroup>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="数量"
+                            android:id="@+id/textView3" />
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center">
+
+                            <Button
+                                android:layout_width="42dp"
+                                android:layout_height="37dp"
+                                android:text="+"
+                                android:id="@+id/addbutton"
+                                android:elevation="5dp"
+                                android:onClick="onAddButtonClicked" />
+
+                            <TextView
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:text="1"
+                                android:id="@+id/quantitytext"
+                                android:gravity="center_horizontal"
+                                android:elevation="1dp" />
+
+                            <Button
+                                android:layout_width="42dp"
+                                android:layout_height="37dp"
+                                android:text="-"
+                                android:id="@+id/minusbutton"
+                                android:elevation="5dp"
+                                android:onClick="onMinusButtonClicked" />
+                        </LinearLayout>
+
+
 
                 </LinearLayout>
 
-                <ListView
-                    android:id="@+id/list"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1">
-                </ListView>
+
             </LinearLayout>
         </com.sothree.slidinguppanel.SlidingUpPanelLayout>
         <com.sothree.slidinguppanel.SlidingUpPanelLayout

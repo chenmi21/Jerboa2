@@ -1,24 +1,23 @@
 package com.example.danchen.jerboa;
 import android.graphics.PointF;
 import android.graphics.Rect;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.FloatMath;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
-import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.ScaleAnimation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
@@ -53,6 +52,11 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
     PointF start = new PointF();
     PointF mid = new PointF();
     float oldDist = 1f;
+    //attribute stuff
+    Button addBtn,minusBtn;
+    TextView productNum;
+    int productCount = 1;
+
 
     //Sliding Panel stuff
     private SlidingUpPanelLayout mLayout, mLayout2, mLayout3, mLayout4;
@@ -67,6 +71,9 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
         shirtview = (ImageView)findViewById(R.id.tshirt);
         garbage.setVisibility(View.INVISIBLE);
         mRrootLayout = (ViewGroup) findViewById(R.id.imgLayout);
+        addBtn = (Button)findViewById(R.id.addbutton);
+        minusBtn = (Button) findViewById(R.id.minusbutton);
+        productNum = (TextView) findViewById(R.id.quantitytext);
         initializeToolbar();
         //garbage bin
         rect = new Rect();
@@ -111,13 +118,6 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
         //       Sliding Panel initialization
         ////////////////////////////////////////////////////////////////////////////////////
 
-        ListView lv = (ListView) findViewById(R.id.list);
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(EditProduct.this, "onItemClick", Toast.LENGTH_SHORT).show();
-            }
-        });
         ListView lv2 = (ListView) findViewById(R.id.list2);
         lv2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -175,7 +175,7 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
                 android.R.layout.simple_list_item_1,
                 your_array_list );
 
-        lv.setAdapter(arrayAdapter);
+
         lv2.setAdapter(arrayAdapter);
         lv3.setAdapter(arrayAdapter);
         lv4.setAdapter(arrayAdapter);
@@ -580,6 +580,63 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
         if(mLayout2 != null) mLayout2.setVisibility(View.GONE);
         if(mLayout3 != null) mLayout3.setVisibility(View.GONE);
         if(mLayout4 != null) mLayout4.setVisibility(View.GONE);
+    }
+
+
+    public void onRadioButtonClicked(View view) {
+        // Is the button now checked?
+        boolean checked = ((RadioButton) view).isChecked();
+
+        // Check which radio button was clicked
+        switch(view.getId()) {
+            case R.id.sizes:
+                if (checked)
+
+                    break;
+            case R.id.sizem:
+                if (checked)
+
+                    break;
+            case R.id.sizel:
+                if (checked)
+
+                    break;
+            case R.id.sizexl:
+                if (checked)
+
+                    break;
+            case R.id.sizexxl:
+                if (checked)
+
+                    break;
+            case R.id.cotton:
+                if (checked)
+
+                    break;
+            case R.id.fiber:
+                if (checked)
+
+                    break;
+            case R.id.acrylicfibres:
+                if (checked)
+
+                    break;
+
+
+
+
+        }
+    }
+    public void onAddButtonClicked(View view) {
+        productCount++;
+        productNum.setText(productCount+"");
+    }
+
+    public void onMinusButtonClicked(View view) {
+        if(productCount == 1)
+            return;
+        productCount--;
+        productNum.setText(productCount+"");
     }
 }
 
