@@ -165,6 +165,7 @@ public class MainActivity extends ActionBarActivity {
 
     protected void initializeToolbar() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar_main);
+        mToolbar.setTitleTextColor(R.color.white);
         setSupportActionBar(mToolbar);
     }
 

@@ -20,7 +20,7 @@
         android:background="@drawable/button_selector"
         android:text="保存"
         android:id="@+id/save"
-        />
+        android:onClick="onClickSave"/>
 
     <Button
         android:layout_width="match_parent"
@@ -29,7 +29,7 @@
         android:background="@drawable/button_selector"
         android:text="分享"
         android:id="@+id/share"
-        />
+        android:onClick="onClickShare"/>
 
     <Button
         android:layout_width="match_parent"
@@ -38,7 +38,7 @@
         android:background="@drawable/button_selector"
         android:text="购买"
         android:id="@+id/submit"
-        />
+        android:onClick="onClickCheckOut"/>
 
 
 </LinearLayout>
