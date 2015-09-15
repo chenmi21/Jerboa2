@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -133,8 +134,8 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
         //       Sliding Panel initialization
         ////////////////////////////////////////////////////////////////////////////////////
 
-        ListView lv2 = (ListView) findViewById(R.id.list2);
-        lv2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        GridView gv2 = (GridView) findViewById(R.id.grid2);
+        gv2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(EditProduct.this, "onItemClick", Toast.LENGTH_SHORT).show();
@@ -182,6 +183,13 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
                 "SlidingUpPanelLayout"
         );
 
+        String[] numbers = new String[] {
+                "A", "B", "C", "D", "E",
+                "F", "G", "H", "I", "J",
+                "K", "L", "M", "N", "O",
+                "P", "Q", "R", "S", "T",
+                "U", "V", "W", "X", "Y", "Z"};
+
         // This is the array adapter, it takes the context of the activity as a
         // first parameter, the type of list view as a second parameter and your
         // array as a third parameter.
@@ -190,8 +198,10 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
                 android.R.layout.simple_list_item_1,
                 your_array_list );
 
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, numbers);
 
-        lv2.setAdapter(arrayAdapter);
+        gv2.setAdapter(adapter);
         lv3.setAdapter(arrayAdapter);
         lv4.setAdapter(arrayAdapter);
 
