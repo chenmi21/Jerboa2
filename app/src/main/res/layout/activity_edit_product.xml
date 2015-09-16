@@ -292,7 +292,7 @@
                     android:layout_height="fill_parent"
                     android:numColumns="auto_fit"
                     android:stretchMode="columnWidth"
-                    android:columnWidth="50dp"
+                    android:columnWidth="100dp"
                     android:gravity="center">
                 </GridView>
             </LinearLayout>

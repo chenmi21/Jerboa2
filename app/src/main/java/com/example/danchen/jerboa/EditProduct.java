@@ -24,6 +24,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.danchen.jerboa.Adapter.ImageAdapter;
 import com.example.danchen.jerboa.Model.ProductTshirt;
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
@@ -183,13 +184,7 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
                 "SlidingUpPanelLayout"
         );
 
-        String[] numbers = new String[] {
-                "A", "B", "C", "D", "E",
-                "F", "G", "H", "I", "J",
-                "K", "L", "M", "N", "O",
-                "P", "Q", "R", "S", "T",
-                "U", "V", "W", "X", "Y", "Z"};
-
+        String[] templates = new String[] {"grid1", "grid2", "grid3", "grid4", "grid5", "grid6", "grid7"};
         // This is the array adapter, it takes the context of the activity as a
         // first parameter, the type of list view as a second parameter and your
         // array as a third parameter.
@@ -198,10 +193,8 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
                 android.R.layout.simple_list_item_1,
                 your_array_list );
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, numbers);
+        gv2.setAdapter(new ImageAdapter(this, templates));
 
-        gv2.setAdapter(adapter);
         lv3.setAdapter(arrayAdapter);
         lv4.setAdapter(arrayAdapter);
 
