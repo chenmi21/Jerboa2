@@ -1,12 +1,19 @@
 package com.example.danchen.jerboa;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.PointF;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.FloatMath;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -18,6 +25,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
@@ -29,6 +37,10 @@ import com.example.danchen.jerboa.Model.ProductTshirt;
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -41,6 +53,8 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
     public ImageView shirtview;
     private Rect rect,rectView;
     private Toolbar mToolbar;
+    private ImageView screenShotImg;
+    public Bitmap screenShot;
     int _xDelta;
     int _yDelta;
     int imgSize = 250;
@@ -75,7 +89,7 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
 
     //Sliding Panel stuff
     private SlidingUpPanelLayout mLayout, mLayout2, mLayout3, mLayout4;
-    private Button mAttributeButton, mTemplateButton, mTextButton, mAlignButton;
+    private Button mAttributeButton, mTemplateButton, mTextButton, mAlignButton, mFinishButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +105,7 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
         addBtn = (Button)findViewById(R.id.addbutton);
         minusBtn = (Button) findViewById(R.id.minusbutton);
         productNum = (TextView) findViewById(R.id.quantitytext);
+        screenShotImg = (ImageView) findViewById(R.id.screen_shot_output);
         initializeToolbar();
         //garbage bin
         rect = new Rect();
@@ -149,13 +164,6 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
                 Toast.makeText(EditProduct.this, "onItemClick", Toast.LENGTH_SHORT).show();
             }
         });
-        ListView lv4 = (ListView) findViewById(R.id.list4);
-        lv4.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(EditProduct.this, "onItemClick", Toast.LENGTH_SHORT).show();
-            }
-        });
 
         List<String> your_array_list = Arrays.asList(
                 "This",
@@ -196,7 +204,6 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
         gv2.setAdapter(new ImageAdapter(this, templates));
 
         lv3.setAdapter(arrayAdapter);
-        lv4.setAdapter(arrayAdapter);
 
         mLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
         mLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
@@ -319,6 +326,7 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
         mTemplateButton = (Button) findViewById(R.id.templateButton);
         mTextButton = (Button) findViewById(R.id.textButton);
         mAlignButton = (Button) findViewById(R.id.alignButton);
+        mFinishButton = (Button) findViewById(R.id.finishButton);
         mAttributeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -379,6 +387,13 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
                     mLayout2.setVisibility(View.GONE);
                     mLayout3.setVisibility(View.GONE);
                 }
+            }
+        });
+        mFinishButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                captureScreen();
+
             }
         });
 
@@ -745,6 +760,30 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
         });
 
         alert.show();
+    }
+
+    public void captureScreen() {
+        int topHeight = 300, bottomHeight = 250;
+        View v = getWindow().getDecorView().getRootView();
+        v.setDrawingCacheEnabled(true);
+        Bitmap b = Bitmap.createBitmap(v.getDrawingCache());
+        screenShot = Bitmap.createBitmap(b, 0, bottomHeight, b.getWidth(), b.getHeight()-(bottomHeight+topHeight));
+        v.setDrawingCacheEnabled(false);
+
+        try {
+            FileOutputStream fos  = this.openFileOutput("screenshot", Context.MODE_PRIVATE);
+            screenShot.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            fos.flush();
+            fos.close();
+            Intent intent = new Intent(this, EditFinish.class);
+            intent.putExtra("image", "screenshot");
+            startActivity(intent);
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
 

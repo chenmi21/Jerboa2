@@ -3,6 +3,7 @@ package com.example.danchen.jerboa;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
@@ -11,9 +12,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ShareActionProvider;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.Date;
 
@@ -22,12 +25,24 @@ public class EditFinish extends AppCompatActivity {
     private ShareActionProvider mShareActionProvider;
     private Context mContext;
     private Bitmap mBitmap;
+    private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         mContext = getApplicationContext();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_finish);
+
+        imageView = (ImageView)findViewById(R.id.preview_image);
+        String filename = getIntent().getStringExtra("image");
+        try {
+            FileInputStream is = this.openFileInput(filename);
+            Bitmap bmp = BitmapFactory.decodeStream(is);
+            is.close();
+            imageView.setImageBitmap(bmp);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -407,12 +407,11 @@
 
                 </LinearLayout>
 
-                <ListView
-                    android:id="@+id/list4"
+                <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1">
-                </ListView>
+                    android:layout_weight="1"
+                    android:id="@+id/screen_shot_output"/>
             </LinearLayout>
         </com.sothree.slidinguppanel.SlidingUpPanelLayout>
         <LinearLayout
@@ -476,6 +475,15 @@
                     android:background="@drawable/button_selector"
                     android:text="对齐"
                     android:id="@+id/alignButton"/>
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@drawable/text_color_selector"
+                    android:background="@drawable/button_selector"
+                    android:text="完成"
+                    android:id="@+id/finishButton"/>
+
             </LinearLayout>
         </LinearLayout>
     </FrameLayout>
