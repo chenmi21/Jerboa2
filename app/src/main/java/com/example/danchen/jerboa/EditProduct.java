@@ -631,6 +631,34 @@ public class EditProduct extends AppCompatActivity  implements View.OnTouchListe
         if(mLayout4 != null) mLayout4.setVisibility(View.GONE);
     }
 
+    @Override
+    public void onBackPressed() {
+        if (mLayout != null && (mLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED)) {
+            mLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+            setAllBtmButtonsVisible();
+            setAllPanelsGone();
+        }
+        else if(mLayout2 != null && (mLayout2.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED)) {
+            mLayout2.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+            setAllBtmButtonsVisible();
+            setAllPanelsGone();
+        }
+        else if(mLayout3 != null && (mLayout3.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED)) {
+            mLayout3.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+            setAllBtmButtonsVisible();
+            setAllPanelsGone();
+        }
+        else if(mLayout4 != null && (mLayout4.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED)) {
+            mLayout4.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+            setAllBtmButtonsVisible();
+            setAllPanelsGone();
+        }
+        else {
+            super.onBackPressed();
+        }
+    }
+
+
 
     public void onRadioButtonClicked(View view) {
         // Is the button now checked?
